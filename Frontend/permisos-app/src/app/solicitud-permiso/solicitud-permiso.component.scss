@@ -1,0 +1,184 @@
+@use 'variables' as *;
+
+.tarjeta-container {
+  background: linear-gradient(135deg, lighten($color-secundario, 2%) 0%, $color-primario 100%);
+  min-height: 100vh;
+  padding: 0;
+  font-family: $fuente;
+  color: $color-blanco;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Contenedor horizontal (formulario + info)
+.contenido-principal {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  height: auto;
+  box-shadow: 0 0 20px rgba($color-borde, 0.8);
+  border-radius: 12px;
+  overflow: hidden;
+  flex-direction: row;
+}
+
+// Formulario a la izquierda
+.formulario-box {
+  background-color: lighten($color-negro, 0.8);
+  flex: 1;
+  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    label {
+      font-weight: 500;
+      padding-bottom: 0.5rem;
+      color: rgba($color-borde, 0.8);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: $color-blanco;
+      color: $color-negro;
+
+      &.invalido {
+        border: 2px solid $color-error;
+      }
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .error {
+      background-color: $color-error;
+      color: $color-negro;
+      padding: 0.4rem;
+      border-radius: 5px;
+      font-size: 0.875rem;
+    }
+
+    button[type="submit"] {
+      padding: 0.75rem;
+       background-color: rgba($color-primario, 0.3);
+      color: $color-blanco;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($color-primario, 10%);
+      }
+    }
+  }
+}
+
+// Info a la derecha
+.info-box {
+  background-color: rgba($color-negro, 0.5);
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .logo {
+    width: 100px;
+    margin: 0 auto 1rem auto;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+// Botón Cerrar sesión arriba a la derecha
+button.cerrar-seccion {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: $color-error;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  color: $color-blanco;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($color-error, 10%);
+  }
+}
+
+// Mensaje de éxito arriba a la derecha
+.mensaje {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: $verde-exito;
+  color: $color-blanco;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease, fadeOut 0.5s ease 4s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+// Responsive para móvil
+@media (max-width: 768px) {
+  .contenido-principal {
+    flex-direction: column;
+  }
+
+  .formulario-box,
+  .info-box {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  button.btn-danger {
+    top: 10px;
+    right: 10px;
+  }
+}

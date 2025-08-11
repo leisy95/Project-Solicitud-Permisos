@@ -1,0 +1,68 @@
+@use 'variables' as *;
+
+.panel-principal {
+    flex: 1;
+    padding: 2rem;
+
+    h2 {
+        text-align: center;
+        color: $color-blanco;
+        margin-bottom: 3.5rem;
+        font-weight: bold;
+    }
+
+    .boton-ingresar {
+        display: flex;
+        padding-bottom: 1rem;
+
+        button {
+            background-color: $verde-exito;
+            color: $color-blanco;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+
+    .boton-eliminar {
+        background-color: $color-eliminar;
+        color: $color-blanco;
+        font-weight: bold;
+        border-radius: 8px;
+        border: none;
+        padding: 0.5rem;
+    }
+
+    .boton-eliminar:hover {
+        background-color: rgba($color-eliminar, 0.8);
+    }
+}
+
+p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: $color-secundario;
+}
+
+.panel-flotante {
+    position: fixed;
+    top: 0;
+    left: 250px; 
+    width: calc(100% - 250px);
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    app-crear-usuario {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        width: 500px;
+    }
+}

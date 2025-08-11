@@ -1,0 +1,37 @@
+<div class="panel-principal">
+  <h2>Usuarios Registrados</h2>
+
+  <div *ngIf="mensaje" class="mensaje-exito">{{ mensaje }}</div>
+
+  <div class="boton-ingresar">
+    <button (click)="mostrarCrear = true">
+      <i class="fas fa-sign-out-alt"></i> Ingresar Docente
+    </button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>
+          <button class="boton-eliminar" (click)="eliminarUsuario(usuario.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="error" class="mensaje-error">{{ error }}</div>
+
+  <div class="panel-flotante" *ngIf="mostrarCrear">
+    <app-crear-usuario (cerrar)="mostrarCrear = false"></app-crear-usuario>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EndpointLogin", "EndpointLogin\EndpointLogin.csproj", "{6531FE38-3E93-43C3-8090-85A5509F4791}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6531FE38-3E93-43C3-8090-85A5509F4791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6531FE38-3E93-43C3-8090-85A5509F4791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6531FE38-3E93-43C3-8090-85A5509F4791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6531FE38-3E93-43C3-8090-85A5509F4791}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {020B95F5-D86E-4549-B7FF-CE88BDE200FA}
+	EndGlobalSection
+EndGlobal

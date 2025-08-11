@@ -1,0 +1,38 @@
+@use 'variables' as *;
+@import 'animate.css/animate.min.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.mi-popup {
+  background-color: $color-blanco;
+  border-radius: 12px;
+//   padding: 0.5rem;
+}
+
+.mi-titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $color-negro;
+}
+
+.mi-boton-confirmar {
+  background-color: $verde-exito !important;
+  color: $color-blanco !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: bold;
+  border: none !important;
+}
+
+.mi-boton-cancelar {
+  background-color: $color-eliminar !important;
+  color: $color-blanco !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: bold;
+  border: none !important;
+}

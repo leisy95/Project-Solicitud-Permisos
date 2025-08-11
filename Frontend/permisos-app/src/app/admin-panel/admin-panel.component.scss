@@ -1,0 +1,150 @@
+@use 'variables' as *;
+
+.barra-superior {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  z-index: 2000;
+}
+
+.usuario-avatar {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.avatar {
+  background-color: $color-blanco;
+  color: $color-primario;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.menu-info {
+  position: absolute;
+  top: 50px; 
+  right: 0;
+  background: $color-blanco;
+  color: $color-negro;
+  border: 1px solid $color-borde;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba($transparencia-blanca, 0.1);
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+// Panel derecho
+.panel-principal {
+  flex: 1;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    color: $color-blanco;
+    margin-bottom: 3.5rem;
+    font-weight: bold;
+  }
+
+  .encabezado-acciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .filtro-fecha {
+      input {
+        padding: 0.4rem;
+        border: 1px solid $color-primario;
+        border-radius: 5px;
+        color: $color-negro;
+      }
+
+      label {
+        color: $color-primario;
+        font-weight: bold;
+      }
+    }
+
+    .botones-exportar {
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        background-color: $verde-exito;
+        color: $color-blanco;
+        font-weight: bold;
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 0.4rem;
+    border: none;
+    background-color: rgba($verde-exito, 0.8);
+    color: $color-blanco;
+    font-size: 0.8rem;
+  }
+
+  .paginacion {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    button {
+      background-color: $color-primario;
+      color: $color-blanco;
+      padding: 0.4rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .alerta-exito {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: $verde-exito;
+    color: $color-blanco;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    z-index: 1000;
+    font-weight: bold;
+    animation: fadeOut 5s forwards;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+
+    80% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
+}

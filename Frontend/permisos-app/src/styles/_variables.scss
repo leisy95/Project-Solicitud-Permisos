@@ -1,0 +1,145 @@
+$color-primario: #272AF5;
+$color-secundario: #272829;
+$color-borde: #21B1D1;
+$color-blanco: #ffffff;
+$color-negro: #000000;
+$color-error: #ffaaaa;
+$verde-exito: #28a745;
+$color-eliminar: #e74c3c;
+$transparencia-blanca: rgba(255, 255, 255, 0.08);
+$color-dashboard: #0F2C59;
+
+$fuente: 'Segoe UI', sans-serif;
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 0.5px solid $color-blanco;
+  background-color: transparent !important;
+  color: $color-blanco;
+  border-radius: 0;
+  transition: border-bottom-color 0.3s ease;
+
+  &::placeholder {
+    color: rgba($color-blanco, 0.5);
+    transition: color 0.3s ease;
+    font-family: $fuente;
+  }
+
+  &:focus {
+    outline: none;
+    border-bottom-color: $color-blanco;
+  }
+
+  &:not(:placeholder-shown):not(:focus) {
+    border-bottom-color: rgba($color-borde, 0.8);
+  }
+}
+
+.motivo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.4rem;
+    font-family: $fuente;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid $color-borde;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.4;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      border-color: $color-borde;
+      box-shadow: 0 0 10px rgba($color-borde, 0.8);
+    }
+
+    &.invalido {
+      border-color: $color-eliminar;
+      background-color: $color-blanco;
+    }
+  }
+}
+
+//mensajes de exito y de error
+.mensaje-exito {
+  background-color: $verde-exito;
+  color: $color-negro;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid $color-error;
+  border-radius: 4px;
+}
+
+.mensaje-error {
+  background-color: $color-error;
+  color: $color-negro;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid $color-error;
+  border-radius: 4px;
+}
+
+// Tablas 
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $color-blanco;
+  color: $color-negro;
+  border-radius: 8px;
+  overflow: hidden;
+
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 0.5px solid $color-secundario;
+  }
+
+  button {
+    border-radius: 8px;
+    padding: 0.4rem;
+    border: none;
+    color: $color-blanco;
+    font-weight: bold;
+  }
+
+  .aprobar {
+    background-color: rgba($color-primario, 0.8);
+  }
+
+  .rechazar {
+    background-color: $color-eliminar;
+  }
+
+  th {
+    background-color: $color-primario;
+    color: $color-blanco;
+  }
+
+  tr:nth-child(even) {
+    background-color: $color-blanco;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: $color-blanco; // zebra rows
+  }
+
+  tbody tr:hover {
+    background-color: $color-blanco; // sombreado al pasar el mouse
+    cursor: pointer;
+  }
+}

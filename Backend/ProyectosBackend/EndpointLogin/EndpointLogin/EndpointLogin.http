@@ -1,0 +1,6 @@
+@EndpointLogin_HostAddress = http://localhost:5277
+
+GET {{EndpointLogin_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

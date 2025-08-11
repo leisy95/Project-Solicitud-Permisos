@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+
+    <!-- Menú lateral -->
+    <div class="menu-lateral">
+
+        <div class="superior">
+            <h2>Institucion Educativa el Milagro</h2>
+            <div class="acciones-superiores">
+                <a routerLink="/admin"> <i class="fas fa-home"></i> Panel Principal</a>
+                <a routerLink="/admin/mostrar-usuarios"> <i class="fas fa-sign-out-alt"></i> Ver usuarios</a>
+            </div>
+        </div>
+
+        <div class="cerrar-seccion">
+            <button (click)="logout()" class="cerrar">
+                Cerrar sesión
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Contenido dinámico a la derecha -->
+    <div class="panel-principal">
+        <svg width="100%" height="100%" viewBox="0 0 1440 1024" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="blueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0A2342" />
+                    <stop offset="100%" stop-color="#272AF5" />
+                </linearGradient>
+            </defs>
+
+            <!-- Ondas parte superior (desplazadas 1cm más abajo ≈ 37.8px) -->
+            <path d="M0,37.8 C360,137.8 1080,37.8 1440,137.8 L1440,0 L0,0 Z" fill="url(#blueGradient)" />
+            <path d="M0,37.8 C360,187.8 1080,87.8 1440,187.8 L1440,0 L0,0 Z" fill="url(#blueGradient)" opacity="0.8" />
+            <path d="M0,37.8 C360,237.8 1080,137.8 1440,237.8 L1440,0 L0,0 Z" fill="url(#blueGradient)" opacity="0.6" />       
+        </svg>
+        <div class="contenido">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

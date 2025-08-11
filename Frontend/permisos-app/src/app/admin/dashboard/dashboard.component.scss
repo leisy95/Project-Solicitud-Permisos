@@ -1,0 +1,112 @@
+@use 'variables' as *;
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    font-family: $fuente;
+    background-color: $color-blanco;
+    color: $color-blanco;
+}
+
+// Menú lateral
+.menu-lateral {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    background-color: $color-primario;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .superior {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        h2 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: $color-blanco;
+        }
+
+        .acciones-superiores {
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            // gap: 1.2rem;
+
+            a {
+                justify-content: flex-start;
+                text-align: left;
+                color: $color-blanco;
+                padding: 0.6rem;
+                padding-right: 0.6rem;
+                font-weight: bold;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .fa-home,
+            .fa-sign-out-alt {
+                font-size: 80px;
+            }
+        }
+    }
+}
+
+.cerrar-seccion {
+    margin-top: auto;
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.6rem;
+        background-color: $color-error;
+        color: $color-negro;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        justify-content: center;
+
+        &:hover {
+            background-color: darken($color-error, 10%);
+        }
+    }
+}
+
+// Panel derecho
+.panel-principal {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    overflow: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    router-outlet,
+    .contenido {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.panel-principal::-webkit-scrollbar {
+    display: none;
+}

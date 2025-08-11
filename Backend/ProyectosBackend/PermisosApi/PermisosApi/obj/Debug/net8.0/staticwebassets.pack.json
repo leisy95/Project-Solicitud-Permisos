@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HIST LEISY YASMIN LADINO 19052025.pdf",
+      "PackagePath": "staticwebassets\\Archivos\\HIST LEISY YASMIN LADINO 19052025.pdf"
+    },
+    {
+      "Id": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HV Leisy Yasmin Ladino 070425.pdf",
+      "PackagePath": "staticwebassets\\Archivos\\HV Leisy Yasmin Ladino 070425.pdf"
+    },
+    {
+      "Id": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-04.pdf",
+      "PackagePath": "staticwebassets\\Archivos\\Solicitudes_2025-07-04.pdf"
+    },
+    {
+      "Id": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-30.pdf",
+      "PackagePath": "staticwebassets\\Archivos\\Solicitudes_2025-07-30.pdf"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PermisosApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.PermisosApi.props",
+      "PackagePath": "build\\PermisosApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.PermisosApi.props",
+      "PackagePath": "buildMultiTargeting\\PermisosApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.PermisosApi.props",
+      "PackagePath": "buildTransitive\\PermisosApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

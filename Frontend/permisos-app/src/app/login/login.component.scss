@@ -1,0 +1,118 @@
+@use 'variables' as *;
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, lighten($color-secundario, 5%) 0%, $color-primario 100%);
+    font-family: $fuente;
+    padding: 20px;
+
+    .login-container {
+        display: flex;
+        flex-direction: row;
+        max-width: 800px;
+        width: 100%;
+        background-color: $transparencia-blanca;
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba($color-borde, 0.8);
+
+        .login-image {
+            flex: 1;
+            background-color: rgba($color-negro, 0.5);
+            color: $color-blanco;
+            text-align: center;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            img {
+                width: 120px;
+                margin: 0 auto 20px;
+            }
+
+            h3 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 40px;
+            background-color: rgba($color-negro, 0.8);
+            color: $color-blanco;
+
+            h2 {
+                margin-bottom: 20px;
+                font-size: 22px;
+                text-align: center;
+            }
+
+            label {
+                margin-top: 12px;
+                display: block;
+                text-transform: uppercase;
+                font-weight: 500;
+                color: rgba($color-borde, 0.8);
+            }
+
+            small {
+                color: $color-error;
+            }
+
+            .error-msg {
+                margin-top: 10px;
+                color: $color-error;
+                font-weight: bold;
+                font-size: 0.8rem;
+            }
+
+            .boton-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 25px;
+
+                button {
+                    margin-top: 20px;
+                    width: 80%;
+                    padding: 12px;
+                    background-color: rgba($color-primario, 0.3);
+                    border: 2px solid rgba($color-borde, 0.8);
+                    border-radius: 16px;
+                    color: $color-blanco;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                    justify-content: center;
+
+                    &:disabled {
+                        background-color: rgba($color-blanco, 10%);
+                        cursor: not-allowed;
+                        border: none;
+                    }
+                }
+            }
+        }
+
+        // 📱 Responsivo para móviles
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+
+                .login-image,
+                .login-form {
+                    padding: 30px 20px;
+                }
+            }
+        }
+    }
+}
