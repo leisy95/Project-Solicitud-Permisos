@@ -36,8 +36,8 @@ Antes de comenzar, asegúrate de tener instalado:
 - Git
 
 ## Instalación y configuración
-1️. Clonar el repositorio
-git clone https://github.com/leisy95/Project-Solicitud-Permisos.git
+1️. Clonar el repositorio.
+git clone https://github.com/leisy95/Project-Solicitud-Permisos.git.
 cd Project-Solicitud-Permisos
 
 2️. Configurar base de datos
