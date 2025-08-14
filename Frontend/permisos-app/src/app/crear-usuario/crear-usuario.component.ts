@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -34,7 +35,7 @@ export class CrearUsuarioComponent {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
-    this.http.post('http://localhost:5206/api/auth/crear-usuario', datos, { headers }).subscribe({
+    this.http.post(`${environment.apiUrl}/auth/crear-usuario`, datos, { headers }).subscribe({
       next: () => {
         this.alert.exito('Exito', 'Usuario creado y correo enviado correctamente' );
         this.usuarioForm.reset({ rol: 'Usuario' });

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AlertService } from '../services/alert.service';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-solicitud-permiso',
@@ -44,7 +45,7 @@ export class SolicitudPermisoComponent {
     }
 
     this.http.post<{ mensaje: string }>(
-      'http://localhost:5206/api/permisos',
+       `${environment.apiUrl}/permisos`,
       formData,
       {
         headers: {}

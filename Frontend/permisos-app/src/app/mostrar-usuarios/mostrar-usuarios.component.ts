@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertService } from '../services/alert.service';
+import { environment } from 'src/environments/environments';
 
 interface Usuario {
   id: number;
@@ -31,7 +32,7 @@ export class MostrarUsuariosComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<Usuario[]>('http://localhost:5206/api/usuarios', { headers })
+    this.http.get<Usuario[]>(`${environment.apiUrl}/usuarios`, { headers })
       .subscribe({
         next: (data) => {
           this.usuarios = data;

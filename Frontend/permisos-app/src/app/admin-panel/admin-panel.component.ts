@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { AlertService } from '../services/alert.service';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from 'src/environments/environments';
 
 interface UsuarioToken {
   nombre: string;
@@ -72,7 +73,7 @@ export class AdminPanelComponent implements OnInit {
       params = params.set('fecha', fecha);
     }
 
-    this.http.get<any>('http://localhost:5206/api/permisos/solicitudes',
+    this.http.get<any>(`${environment.apiUrl}/permisos/solicitudes`,
       { params }
     )
       .subscribe({

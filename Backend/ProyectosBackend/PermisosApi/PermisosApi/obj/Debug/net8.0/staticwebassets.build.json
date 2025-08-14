@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cKrhMOkFi10mEDrUtHa/3h8VqA2Y8Y3uFZsgqXiXsOk=",
+  "Hash": "89IoQd57Arz0JU85R7TtmSxlNwfMpx53jAxIbgO/Mvc=",
   "Source": "PermisosApi",
   "BasePath": "_content/PermisosApi",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Archivos\\Solicitudes_2025-07-30.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-08-08.pdf",
+      "SourceId": "PermisosApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "BasePath": "_content/PermisosApi",
+      "RelativePath": "Archivos/Solicitudes_2025-08-08.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Archivos\\Solicitudes_2025-08-08.pdf"
     }
   ]
 }

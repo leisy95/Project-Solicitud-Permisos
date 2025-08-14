@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\Archivos\\Solicitudes_2025-07-30.pdf"
     },
     {
+      "Id": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-08-08.pdf",
+      "PackagePath": "staticwebassets\\Archivos\\Solicitudes_2025-08-08.pdf"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PermisosApi.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
