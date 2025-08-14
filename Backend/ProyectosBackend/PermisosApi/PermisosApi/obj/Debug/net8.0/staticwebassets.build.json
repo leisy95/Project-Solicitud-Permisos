@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "p3E9WyUkF5xO+xd9d0ULbU8qUXU8NUinRfbd0OLYSCs=",
+  "Hash": "cKrhMOkFi10mEDrUtHa/3h8VqA2Y8Y3uFZsgqXiXsOk=",
   "Source": "PermisosApi",
   "BasePath": "_content/PermisosApi",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "PermisosApi\\wwwroot",
       "Source": "PermisosApi",
-      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
       "BasePath": "_content/PermisosApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HIST LEISY YASMIN LADINO 19052025.pdf",
+      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HIST LEISY YASMIN LADINO 19052025.pdf",
       "SourceId": "PermisosApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
       "BasePath": "_content/PermisosApi",
       "RelativePath": "Archivos/HIST LEISY YASMIN LADINO 19052025.pdf",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\Archivos\\HIST LEISY YASMIN LADINO 19052025.pdf"
     },
     {
-      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HV Leisy Yasmin Ladino 070425.pdf",
+      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\HV Leisy Yasmin Ladino 070425.pdf",
       "SourceId": "PermisosApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
       "BasePath": "_content/PermisosApi",
       "RelativePath": "Archivos/HV Leisy Yasmin Ladino 070425.pdf",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\Archivos\\HV Leisy Yasmin Ladino 070425.pdf"
     },
     {
-      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-04.pdf",
+      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-04.pdf",
       "SourceId": "PermisosApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
       "BasePath": "_content/PermisosApi",
       "RelativePath": "Archivos/Solicitudes_2025-07-04.pdf",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\Archivos\\Solicitudes_2025-07-04.pdf"
     },
     {
-      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-30.pdf",
+      "Identity": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\Archivos\\Solicitudes_2025-07-30.pdf",
       "SourceId": "PermisosApi",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\wwwroot\\",
       "BasePath": "_content/PermisosApi",
       "RelativePath": "Archivos/Solicitudes_2025-07-30.pdf",
       "AssetKind": "All",

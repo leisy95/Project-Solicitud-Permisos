@@ -4908,11 +4908,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
+      "projectUniqueName": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
       "projectName": "PermisosApi",
-      "projectPath": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
+      "projectPath": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
       "packagesPath": "C:\\Users\\leisy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\obj\\",
+      "outputPath": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\leisy\\AppData\\Roaming\\NuGet\\NuGet.Config",

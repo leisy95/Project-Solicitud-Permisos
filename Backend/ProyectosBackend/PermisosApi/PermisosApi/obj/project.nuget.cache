@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c55yZNSxnUJQ0vdB9y8xSGNvXKf1TtLgjiaZeL1Cp2Sv44FGUa7OBmSGWC6c1zVV4t7QuNnkR+vhV9gQ+4B1tQ==",
+  "dgSpecHash": "/7JllvrTJ/y0+qAiX/lb1Uyb2cxILnSJr838eiut57zTJ9zqHQObbQHSqAxzDdHDTNLHbNf+CsqA0Ow2vFK3UA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\leisy\\Desktop\\angular\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
+  "projectFilePath": "C:\\Users\\leisy\\Desktop\\angular\\Project-Solicitud-Permisos\\Backend\\ProyectosBackend\\PermisosApi\\PermisosApi\\PermisosApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leisy\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\leisy\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PermisosApi.Data;
+using PermisosApi.Models;
 using PermisosApi.Services;
 using System.Text;
 
@@ -103,5 +104,30 @@ app.UseAuthorization();
 app.UseStaticFiles(); 
 
 app.MapControllers();
+
+// Crear usuario admin automáticamente si no existe cuando no hay nada en la BD
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    context.Database.Migrate();
+
+    // Si no hay usuarios, crear el admin
+    if (!context.Usuarios.Any())
+    {
+        var admin = new Usuario
+        {
+            Nombre = "Admin",
+            Correo = "admin@admin.com",
+            ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+            Rol = "Admin"
+        };
+
+        context.Usuarios.Add(admin);
+        context.SaveChanges();
+        Console.WriteLine("✅ Usuario administrador creado automáticamente.");
+    }
+}
 
 app.Run();
