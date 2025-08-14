@@ -39,25 +39,24 @@ Antes de comenzar, asegúrate de tener instalado:
 1️. Clonar el repositorio.
 
 - git clone https://github.com/leisy95/Project-Solicitud-Permisos.git.
+- cd Project-Solicitud-Permisos/
   
-**Configuracion en Angular**
-- cd Project-Solicitud-Permisos/Frontend/permisos-app
-**Instalar dependencias**
- - npm install
-  
-2. Configurar backend (.NET)
-Editar backend/appsettings.json:
+2. **Configurar backend (.NET)**
+
+**Abrir el proyecto editor preferencia**
+
+-Ruta:  Project-Solicitud-Permisos/Backend/permisosApi.sln
+- Editar backend/appsettings.json:
 
 "ConnectionStrings": {
   "DefaultConnection": "Server=TU_SERVIDOR;Database=PermisosApp;Trusted_Connection=True;"
 }
-Si usas usuario y contraseña de SQL Server:
+
+- Si usas usuario y contraseña de SQL Server:
 
 "DefaultConnection": "Server=TU_SERVIDOR;Database=PermisosApp;User Id=USUARIO;Password=CONTRASEÑA;"
 
 ## Levantar API:
-
-cd backend
 dotnet run
 Backend disponible en: https://localhost:5204
 
@@ -72,11 +71,20 @@ cd backend
 - dotnet ef database update
 
 4. Configurar frontend (Angular)
-
-cd frontend
-npm install
+cd Project-Solicitud-Permisos/Frontend/permisos-app
+**Instalar dependencias**
+ - npm install
 ng serve
 Frontend disponible en: http://localhost:4200
+
+5. Creación automática del usuario administrador
+Al iniciar por primera vez, si la base de datos PermisosApp está vacía, se creará automáticamente un usuario administrador con las siguientes credenciales:
+
+- Correo: admin@admin.com
+  
+- Contraseña: 12345678
+
+- Recuerda elinimar o cambiar 
 
 ## Funcionalidades principales
 
