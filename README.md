@@ -37,8 +37,11 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Instalación y configuración
 1️. Clonar el repositorio.
-git clone https://github.com/leisy95/Project-Solicitud-Permisos.git.
-cd Project-Solicitud-Permisos
+- git clone https://github.com/leisy95/Project-Solicitud-Permisos.git.
+**En Angular**
+- cd Project-Solicitud-Permisos/Frontend/permisos-app
+**Instalar dependencias**
+ - npm install
 
 2️. Configurar base de datos
 
