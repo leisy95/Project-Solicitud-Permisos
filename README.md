@@ -37,23 +37,15 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## Instalación y configuración
 1️. Clonar el repositorio.
+
 - git clone https://github.com/leisy95/Project-Solicitud-Permisos.git.
-**En Angular**
+  
+**Configuracion en Angular**
 - cd Project-Solicitud-Permisos/Frontend/permisos-app
 **Instalar dependencias**
  - npm install
-
-2️. Configurar base de datos
-
-Opción A: Ejecutar script SQL
-Abrir database/PermisosApp.sql en SSMS y ejecutarlo.
-
-Opción B: Usar migraciones de Entity Framework
-cd backend
-- dotnet restore
-- dotnet ef database update
   
-3. Configurar backend (.NET)
+2. Configurar backend (.NET)
 Editar backend/appsettings.json:
 
 "ConnectionStrings": {
@@ -68,6 +60,16 @@ Si usas usuario y contraseña de SQL Server:
 cd backend
 dotnet run
 Backend disponible en: https://localhost:5204
+
+3. Configurar base de datos
+
+Opción A: Ejecutar script SQL
+Abrir database/PermisosApp.sql en SSMS y ejecutarlo.
+
+Opción B: Usar migraciones de Entity Framework
+cd backend
+- dotnet restore
+- dotnet ef database update
 
 4. Configurar frontend (Angular)
 
