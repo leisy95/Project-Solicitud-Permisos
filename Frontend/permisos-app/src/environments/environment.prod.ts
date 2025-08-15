@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://tu-api.onrender.com/api'
+  apiUrl: 'https://project-solicitud-permisos.onrender.com/api'
 };
