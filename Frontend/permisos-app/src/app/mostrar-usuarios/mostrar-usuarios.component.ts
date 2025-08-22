@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertService } from '../services/alert.service';
-import { environment } from 'src/environments/environments';
+import { environment } from 'src/environments/environment';
 
 interface Usuario {
   id: number;

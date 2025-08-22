@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { AlertService } from '../services/alert.service';
 import { jwtDecode } from 'jwt-decode';
-import { environment } from 'src/environments/environments';
+import { environment } from 'src/environments/environment';
 
 interface UsuarioToken {
   nombre: string;
