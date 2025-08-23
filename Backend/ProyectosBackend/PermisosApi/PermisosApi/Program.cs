@@ -82,9 +82,17 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<EmailService>();
 
+var host = Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
+var port = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
+var db = Environment.GetEnvironmentVariable("PGDATABASE") ?? "railway";
+var user = Environment.GetEnvironmentVariable("PGUSER") ?? "postgres";
+var password = Environment.GetEnvironmentVariable("PGPASSWORD") ?? "miPasswordLocal";
+
+var connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
+
 
 var app = builder.Build();
 
@@ -111,7 +119,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
 
-    context.Database.Migrate();
+    //context.Database.Migrate();
 
     // Si no hay usuarios, crear el admin
     if (!context.Usuarios.Any())
@@ -126,7 +134,7 @@ using (var scope = app.Services.CreateScope())
 
         context.Usuarios.Add(admin);
         context.SaveChanges();
-        Console.WriteLine("✅ Usuario administrador creado automáticamente.");
+        Console.WriteLine("Usuario administrador creado automáticamente.");
     }
 }
 
