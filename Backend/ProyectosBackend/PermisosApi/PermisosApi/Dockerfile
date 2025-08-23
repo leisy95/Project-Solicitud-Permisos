@@ -5,8 +5,6 @@ WORKDIR /app
 # Copiar solo el csproj para restaurar dependencias
 COPY PermisosApi.csproj ./
 
-# Restaurar dependencias
-RUN dotnet restore
 
 # Copiar todo el código
 COPY . ./
