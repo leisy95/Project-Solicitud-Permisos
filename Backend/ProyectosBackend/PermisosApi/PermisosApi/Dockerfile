@@ -1,24 +1,21 @@
-﻿# Etapa de build
+﻿# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-# 1️⃣ Copiar solo el csproj para restaurar dependencias
-COPY PermisosApi.csproj ./
+# Copiar solo el csproj desde la subcarpeta
+COPY ./PermisosApi/PermisosApi.csproj ./PermisosApi/
+WORKDIR /app/PermisosApi
 RUN dotnet restore
 
-# 2️⃣ Copiar todo el código fuente
-COPY . ./
+# Copiar todo el código desde la subcarpeta
+COPY ./PermisosApi/ ./ 
 
-# 3️⃣ Publicar en Release
+# Publicar en Release
 RUN dotnet publish -c Release -o out
 
-# Etapa de runtime
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build /app/out .
-
-# Exponer puerto 80
+COPY --from=build /app/PermisosApi/out .
 EXPOSE 80
-
-# Ejecutar la aplicación
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
