@@ -82,11 +82,8 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<EmailService>();
 
-var envConnection = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-
-// 2. Si no existe, usar la de appsettings.json (para local)
-var connectionString = envConnection
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
+                       ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
