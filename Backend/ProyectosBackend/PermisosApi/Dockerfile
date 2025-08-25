@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Copiar el archivo .csproj
+# Copiar el archivo .csproj (con su ruta correcta)
 COPY PermisosApi/PermisosApi.csproj PermisosApi/
 
 # Restaurar dependencias
