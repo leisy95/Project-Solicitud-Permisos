@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar el archivo .csproj (con su ruta correcta)
@@ -15,7 +15,7 @@ COPY . .
 RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
 EXPOSE 80
