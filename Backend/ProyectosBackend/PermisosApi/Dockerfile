@@ -1,16 +1,18 @@
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copiar solo el csproj para restaurar dependencias
-COPY PermisosApi.csproj ./
+# Copiar el archivo .csproj
+COPY PermisosApi/PermisosApi.csproj PermisosApi/
 
+# Restaurar dependencias
+RUN dotnet restore PermisosApi/PermisosApi.csproj
 
 # Copiar todo el código
-COPY . ./
+COPY . .
 
-# Publicar la app
-RUN dotnet publish -c Release -o out
+# Publicar la aplicación
+RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
