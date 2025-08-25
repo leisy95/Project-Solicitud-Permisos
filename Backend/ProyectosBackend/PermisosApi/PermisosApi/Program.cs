@@ -82,13 +82,13 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<EmailService>();
 
-var host = Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
-var port = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
-var db = Environment.GetEnvironmentVariable("PGDATABASE") ?? "railway";
-var user = Environment.GetEnvironmentVariable("PGUSER") ?? "postgres";
-var password = Environment.GetEnvironmentVariable("PGPASSWORD") ?? "miPasswordLocal";
+//var host = Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
+//var port = Environment.GetEnvironmentVariable("PGPORT") ?? "5432";
+//var db = Environment.GetEnvironmentVariable("PGDATABASE") ?? "railway";
+//var user = Environment.GetEnvironmentVariable("PGUSER") ?? "postgres";
+//var password = Environment.GetEnvironmentVariable("PGPASSWORD") ?? "miPasswordLocal";
 
-var connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
+//var connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
