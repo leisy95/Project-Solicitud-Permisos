@@ -219,10 +219,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<EmailService>();
 
 // Conexión a la base de datos
-// Obtener la cadena de conexión desde la variable de entorno
 var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
-// Convertir URI estilo "postgres://" a formato ADO.NET
 string connectionString;
 if (!string.IsNullOrEmpty(connectionStringEnv) && connectionStringEnv.StartsWith("postgres://"))
 {
