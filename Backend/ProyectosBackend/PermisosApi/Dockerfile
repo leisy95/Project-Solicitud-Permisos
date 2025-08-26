@@ -1,28 +1,24 @@
 # ------------------- Build stage -------------------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
-# Directorio base dentro del contenedor
 WORKDIR /src
 
-# Copiar solo el .csproj primero (para cachear dependencias)
-COPY Backend/ProyectosBackend/PermisosApi/PermisosApi.csproj PermisosApi/
+# Copiar solo el archivo de solución para cachear dependencias
+COPY PermisosApi.sln ./
 
-# Cambiar al directorio donde está el .csproj
-WORKDIR /src/PermisosApi
+# Copiar la carpeta del proyecto
+COPY PermisosApi/ ./PermisosApi/
 
-# Restaurar dependencias
-RUN dotnet restore PermisosApi.csproj
+# Restaurar todas las dependencias usando la solución
+RUN dotnet restore PermisosApi.sln
 
-# Copiar el resto del código fuente
-COPY Backend/ProyectosBackend/PermisosApi/. ./
-
-# Publicar la aplicación
-RUN dotnet publish -c Release -o /app/out
+# Construir y publicar la aplicación
+RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
 
 # ------------------- Runtime stage -------------------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-
 WORKDIR /app
+
+# Copiar la publicación desde la etapa build
 COPY --from=build /app/out .
 
 EXPOSE 80
