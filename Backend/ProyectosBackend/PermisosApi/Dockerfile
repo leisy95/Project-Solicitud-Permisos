@@ -2,16 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar solo el archivo de solución para cachear dependencias
+# Copiar solución y proyecto
 COPY PermisosApi.sln ./
-
-# Copiar la carpeta del proyecto
 COPY PermisosApi/ ./PermisosApi/
 
-# Restaurar todas las dependencias usando la solución
-RUN dotnet restore PermisosApi.sln
-
-# Construir y publicar la aplicación
+# Publicar directamente (restore implícito)
 RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
 
 # ------------------- Runtime stage -------------------
