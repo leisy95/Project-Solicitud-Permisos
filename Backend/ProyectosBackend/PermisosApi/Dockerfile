@@ -23,3 +23,4 @@ COPY --from=build /app/out .
 EXPOSE 80
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
 // cambio para forzar rebuild
+// forzar rebuild
