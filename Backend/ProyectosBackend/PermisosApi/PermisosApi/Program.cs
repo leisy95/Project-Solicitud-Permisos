@@ -135,6 +135,173 @@
 
 //app.Run();
 
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.IdentityModel.Tokens;
+//using Microsoft.OpenApi.Models;
+//using PermisosApi.Data;
+//using PermisosApi.Models;
+//using PermisosApi.Services;
+//using System.Text;
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//// CORS para Angular
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAngularApp",
+//        policy => policy.WithOrigins("http://localhost:4200")
+//                        .AllowAnyHeader()
+//                        .AllowAnyMethod());
+//});
+
+//// Controladores
+//builder.Services.AddControllers();
+
+//// JWT
+//var claveSecreta = builder.Configuration["Jwt:Key"];
+//var clave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//        ValidAudience = builder.Configuration["Jwt:Audience"],
+//        IssuerSigningKey = clave
+//    };
+//});
+
+//builder.Services.AddAuthorization();
+
+//// Swagger
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new() { Title = "Tu API", Version = "v1" });
+
+//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//    {
+//        Name = "Authorization",
+//        Type = SecuritySchemeType.Http,
+//        Scheme = "Bearer",
+//        BearerFormat = "JWT",
+//        In = ParameterLocation.Header,
+//        Description = "Ingrese el token JWT con el formato: Bearer {token}"
+//    });
+
+//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+//    {
+//        {
+//            new OpenApiSecurityScheme
+//            {
+//                Reference = new OpenApiReference
+//                {
+//                    Type = ReferenceType.SecurityScheme,
+//                    Id = "Bearer"
+//                }
+//            },
+//            Array.Empty<string>()
+//        }
+//    });
+//});
+
+//// Servicio de correo
+//builder.Services.AddScoped<EmailService>();
+
+//// Conexión a la base de datos
+//var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+//string connectionString;
+
+//if (!string.IsNullOrEmpty(connectionStringEnv))
+//{
+//    // Si es URI de PostgreSQL tipo Railway
+//    if (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://"))
+//    {
+//        var uri = new Uri(connectionStringEnv);
+//        var userInfo = uri.UserInfo.Split(':');
+
+//        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
+//    }
+//    else
+//    {
+//        // Si ya es cadena en formato ADO.NET (opcional)
+//        connectionString = connectionStringEnv;
+//    }
+//}
+//else
+//{
+//    // Fallback a appsettings.json (entorno local)
+//    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//}
+
+//// Debug: mostrar cadena final
+//Console.WriteLine($"Conexión a la DB: {connectionString}");
+
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseNpgsql(connectionString));
+
+//var app = builder.Build();
+
+//// Swagger en desarrollo
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+//app.UseCors("AllowAngularApp");
+//app.UseAuthentication();
+//app.UseAuthorization();
+//app.UseStaticFiles();
+//app.MapControllers();
+
+//// Aplicar migraciones y crear admin automáticamente
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<ApplicationDbContext>();
+
+//    try
+//    {
+//        // Migraciones automáticas
+//        context.Database.Migrate();
+//        Console.WriteLine("Migraciones aplicadas correctamente.");
+
+//        // Crear admin si no hay usuarios
+//        if (!context.Usuarios.Any())
+//        {
+//            var admin = new Usuario
+//            {
+//                Nombre = "Admin",
+//                Correo = "admin@admin.com",
+//                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+//                Rol = "Admin"
+//            };
+
+//            context.Usuarios.Add(admin);
+//            context.SaveChanges();
+//            Console.WriteLine("Usuario administrador creado automáticamente.");
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine("Error al inicializar la base de datos: " + ex);
+//        throw; // Opcional: lanzar la excepción para que Render lo registre
+//    }
+//}
+
+//app.Run();
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -146,7 +313,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS para Angular
+// ------------------- CORS -------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
@@ -155,10 +322,10 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-// Controladores
+// ------------------- Controllers -------------------
 builder.Services.AddControllers();
 
-// JWT
+// ------------------- JWT -------------------
 var claveSecreta = builder.Configuration["Jwt:Key"];
 var clave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
 
@@ -183,11 +350,11 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Swagger
+// ------------------- Swagger -------------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "Tu API", Version = "v1" });
+    c.SwaggerDoc("v1", new() { Title = "Permisos API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -215,36 +382,26 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Servicio de correo
+// ------------------- Servicios -------------------
 builder.Services.AddScoped<EmailService>();
 
-// Conexión a la base de datos
+// ------------------- Configuración de DB -------------------
 var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 string connectionString;
 
-if (!string.IsNullOrEmpty(connectionStringEnv))
+if (!string.IsNullOrEmpty(connectionStringEnv) &&
+    (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://")))
 {
-    // Si es URI de PostgreSQL tipo Railway
-    if (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://"))
-    {
-        var uri = new Uri(connectionStringEnv);
-        var userInfo = uri.UserInfo.Split(':');
+    var uri = new Uri(connectionStringEnv);
+    var userInfo = uri.UserInfo.Split(':');
 
-        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
-    }
-    else
-    {
-        // Si ya es cadena en formato ADO.NET (opcional)
-        connectionString = connectionStringEnv;
-    }
+    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
 }
 else
 {
-    // Fallback a appsettings.json (entorno local)
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
-// Debug: mostrar cadena final
 Console.WriteLine($"Conexión a la DB: {connectionString}");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -252,7 +409,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
-// Swagger en desarrollo
+// ------------------- Middleware -------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -265,7 +422,7 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
 
-// Aplicar migraciones y crear admin automáticamente
+// ------------------- Inicializar DB y crear admin -------------------
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -273,11 +430,10 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Migraciones automáticas
+        // Aplicar migraciones
         context.Database.Migrate();
-        Console.WriteLine("Migraciones aplicadas correctamente.");
 
-        // Crear admin si no hay usuarios
+        // Crear admin si no existe
         if (!context.Usuarios.Any())
         {
             var admin = new Usuario
@@ -296,7 +452,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine("Error al inicializar la base de datos: " + ex);
-        throw; // Opcional: lanzar la excepción para que Render lo registre
+        throw;
     }
 }
 
