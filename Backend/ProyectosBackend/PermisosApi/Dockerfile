@@ -1,18 +1,18 @@
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# Copiar solo el csproj primero (para cachear dependencias)
+# Copiar solo el csproj primero
 COPY PermisosApi/*.csproj ./PermisosApi/
 
 # Restaurar dependencias
-WORKDIR /src/PermisosApi
+WORKDIR /app/PermisosApi
 RUN dotnet restore
 
 # Copiar todo el código
 COPY PermisosApi/. ./
 
-# Publicar la aplicación
+# Publicar
 RUN dotnet publish -c Release -o /app/out
 
 # Runtime stage
