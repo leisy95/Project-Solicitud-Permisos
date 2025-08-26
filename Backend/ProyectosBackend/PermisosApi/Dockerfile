@@ -2,17 +2,18 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar el archivo .csproj (con su ruta correcta)
-COPY PermisosApi/PermisosApi.csproj PermisosApi/
+# Copiar solo el csproj primero (para cachear dependencias)
+COPY PermisosApi/*.csproj ./PermisosApi/
 
 # Restaurar dependencias
-RUN dotnet restore PermisosApi/PermisosApi.csproj
+WORKDIR /src/PermisosApi
+RUN dotnet restore
 
 # Copiar todo el código
-COPY . .
+COPY PermisosApi/. ./
 
 # Publicar la aplicación
-RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
+RUN dotnet publish -c Release -o /app/out
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
