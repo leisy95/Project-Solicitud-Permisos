@@ -222,8 +222,6 @@ builder.Services.AddScoped<EmailService>();
 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
                        ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-Console.WriteLine($"Conexión a la DB: {connectionString}");
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
