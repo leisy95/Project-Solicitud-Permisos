@@ -6,11 +6,14 @@ WORKDIR /src
 COPY PermisosApi.sln ./
 COPY PermisosApi/ ./PermisosApi/
 
-# Publicar (restore implícito)
+# Publicar directamente (restore implícito)
 RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
 
+# ------------------- Runtime stage -------------------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
+
 COPY --from=build /app/out .
+
 EXPOSE 80
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
