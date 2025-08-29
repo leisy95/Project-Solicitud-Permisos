@@ -309,6 +309,7 @@ using Microsoft.OpenApi.Models;
 using PermisosApi.Data;
 using PermisosApi.Models;
 using PermisosApi.Services;
+using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -386,14 +387,35 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<EmailService>();
 
 // ------------------- Configuración de DB -------------------
-using (var scope = app.Services.CreateScope())
+var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+string connectionString;
+
+if (!string.IsNullOrEmpty(connectionStringEnv))
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    // Caso Render/Railway (cadena en formato URI tipo postgres://)
+    if (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://"))
+    {
+        var uri = new Uri(connectionStringEnv);
+        var userInfo = uri.UserInfo.Split(':');
+
+        connectionString =
+            $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
+            $"Username={userInfo[0]};Password={userInfo[1]};" +
+            $"Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
+    }
+    else
+    {
+        // Si ya viene en formato ADO.NET
+        connectionString = connectionStringEnv;
+    }
+}
+else
+{
+    // Local
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+Console.WriteLine($"🔗 Usando cadena de conexión: {connectionString}");
 
 var app = builder.Build();
 
@@ -418,10 +440,10 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Aplicar migraciones
+        // Migraciones automáticas
         context.Database.Migrate();
 
-        // Crear admin si no existe
+        // Crear usuario admin si no existe
         if (!context.Usuarios.Any())
         {
             var admin = new Usuario
@@ -434,12 +456,12 @@ using (var scope = app.Services.CreateScope())
 
             context.Usuarios.Add(admin);
             context.SaveChanges();
-            Console.WriteLine("Usuario administrador creado automáticamente.");
+            Console.WriteLine("✅ Usuario administrador creado automáticamente.");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Error al inicializar la base de datos: " + ex);
+        Console.WriteLine("❌ Error al inicializar la base de datos: " + ex.Message);
         throw;
     }
 }
