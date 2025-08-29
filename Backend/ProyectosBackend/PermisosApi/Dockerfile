@@ -2,14 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Copiamos los archivos de proyecto primero
+# Copiamos archivos de proyecto primero (mejor cache)
 COPY PermisosApi/PermisosApi.csproj PermisosApi/
 COPY PermisosApi.sln ./
-
-# Restauramos dependencias
 RUN dotnet restore PermisosApi.sln
 
-# Copiamos el resto del código
+# Copiamos todo el código
 COPY . .
 
 # Compilamos
@@ -23,5 +21,9 @@ RUN dotnet publish PermisosApi.csproj -c Release -o /app/publish
 # Etapa runtime
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
+
+# Railway define la variable PORT automáticamente
+ENV ASPNETCORE_URLS=http://+:${PORT}
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
