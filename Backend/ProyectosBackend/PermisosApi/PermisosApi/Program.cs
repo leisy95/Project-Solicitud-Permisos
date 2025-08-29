@@ -311,6 +311,7 @@ using PermisosApi.Models;
 using PermisosApi.Services;
 using System;
 using System.Text;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -387,38 +388,30 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<EmailService>();
 
 // ------------------- Configuración de DB -------------------
-var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-string connectionString;
 
-if (!string.IsNullOrEmpty(connectionStringEnv))
-{
-    // Caso Render/Railway (cadena en formato URI tipo postgres://)
-    if (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://"))
-    {
-        var uri = new Uri(connectionStringEnv);
-        var userInfo = uri.UserInfo.Split(':');
+// Leer DATABASE_PUBLIC_URL de Railway
+var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_PUBLIC_URL");
 
-        connectionString =
-            $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
-            $"Username={userInfo[0]};Password={userInfo[1]};" +
-            $"Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
-    }
-    else
-    {
-        // Si ya viene en formato ADO.NET
-        connectionString = connectionStringEnv;
-    }
-}
-else
+if (string.IsNullOrEmpty(connectionUrl))
 {
-    // Local
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    // fallback a tu appsettings.Development.json cuando corras local
+    connectionUrl = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
-Console.WriteLine($"🔗 Usando cadena de conexión: {connectionString}");
+// Convertir URL de Railway a formato que Npgsql entienda
+var databaseUri = new Uri(connectionUrl);
+var userInfo = databaseUri.UserInfo.Split(':');
 
+var builderConn = new NpgsqlConnectionStringBuilder
+{
+    Host = databaseUri.Host,
+    Port = databaseUri.Port,
+    Username = userInfo[0],
+    Password = userInfo[1],
+    Database = databaseUri.LocalPath.TrimStart('/')
+};
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(builderConn.ConnectionString));
 
 var app = builder.Build();
 
