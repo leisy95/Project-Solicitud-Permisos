@@ -386,21 +386,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<EmailService>();
 
 // ------------------- Configuración de DB -------------------
-var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-string connectionString;
-
-if (!string.IsNullOrEmpty(connectionUrl))
+using (var scope = app.Services.CreateScope())
 {
-    var uri = new Uri(connectionUrl);
-    var userInfo = uri.UserInfo.Split(':');
-
-    connectionString =
-        $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
-        $"Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
-}
-else
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
