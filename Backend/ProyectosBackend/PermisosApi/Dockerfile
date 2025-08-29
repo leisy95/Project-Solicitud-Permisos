@@ -1,32 +1,27 @@
-# =========================
-# Build stage
-# =========================
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Etapa build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Copiar el archivo de solución y proyecto
+# Copiamos los archivos de proyecto primero
+COPY PermisosApi/PermisosApi.csproj PermisosApi/
 COPY PermisosApi.sln ./
-COPY PermisosApi/ ./PermisosApi/
 
-# Publicar directamente (restore implícito)
-RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/out
+# Restauramos dependencias
+RUN dotnet restore PermisosApi.sln
 
-# =========================
-# Runtime stage
-# =========================
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Copiamos el resto del código
+COPY . .
+
+# Compilamos
+WORKDIR /src/PermisosApi
+RUN dotnet build PermisosApi.csproj -c Release -o /app/build
+
+# Etapa publish
+FROM build AS publish
+RUN dotnet publish PermisosApi.csproj -c Release -o /app/publish
+
+# Etapa runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
-
-# Copiar los archivos publicados desde la etapa build
-COPY --from=build /app/out ./
-
-# Exponer puerto 80
-EXPOSE 80
-
-# Ejecutar la aplicación
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
-Guarda y cierra:
-
-CTRL + O → Enter
-
-CTRL + X → salir de nano
