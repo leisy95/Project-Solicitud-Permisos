@@ -1,20 +1,17 @@
-# Imagen base
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+# Imagen base (runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Imagen SDK para compilar
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar archivo de solución (ajustando la ruta)
-COPY PermisosApi/PermisosApi.sln ./ 
-
-# Copiar el csproj
+COPY PermisosApi/PermisosApi.sln ./
 COPY PermisosApi/PermisosApi/PermisosApi.csproj PermisosApi/
 
 RUN dotnet restore PermisosApi.sln
 
-# Copiar el resto del proyecto
 COPY PermisosApi/. ./PermisosApi/
 
 WORKDIR /src/PermisosApi
