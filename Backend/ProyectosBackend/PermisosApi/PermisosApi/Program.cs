@@ -417,6 +417,9 @@ else
 
 Console.WriteLine($"🔗 Usando cadena de conexión: {connectionString}");
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
 var app = builder.Build();
 
 // ------------------- Middleware -------------------
@@ -456,12 +459,12 @@ using (var scope = app.Services.CreateScope())
 
             context.Usuarios.Add(admin);
             context.SaveChanges();
-            Console.WriteLine("✅ Usuario administrador creado automáticamente.");
+            Console.WriteLine("Usuario administrador creado automáticamente.");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine("❌ Error al inicializar la base de datos: " + ex.Message);
+        Console.WriteLine("Error al inicializar la base de datos: " + ex.Message);
         throw;
     }
 }
