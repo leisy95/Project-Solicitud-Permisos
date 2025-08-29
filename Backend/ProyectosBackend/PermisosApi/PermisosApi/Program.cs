@@ -386,23 +386,22 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<EmailService>();
 
 // ------------------- Configuración de DB -------------------
-var connectionStringEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 string connectionString;
 
-if (!string.IsNullOrEmpty(connectionStringEnv) &&
-    (connectionStringEnv.StartsWith("postgres://") || connectionStringEnv.StartsWith("postgresql://")))
+if (!string.IsNullOrEmpty(connectionUrl))
 {
-    var uri = new Uri(connectionStringEnv);
+    var uri = new Uri(connectionUrl);
     var userInfo = uri.UserInfo.Split(':');
 
-    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
+    connectionString =
+        $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};" +
+        $"Username={userInfo[0]};Password={userInfo[1]};Pooling=true;SSL Mode=Require;Trust Server Certificate=true;";
 }
 else
 {
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
-
-Console.WriteLine($"Conexión a la DB: {connectionString}");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
