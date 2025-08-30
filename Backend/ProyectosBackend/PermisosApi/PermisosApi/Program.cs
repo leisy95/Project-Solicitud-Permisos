@@ -318,14 +318,16 @@ var builder = WebApplication.CreateBuilder(args);
 // ------------------- CORS -------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins("https://project-solicitud-permisos.vercel.app") // tu frontend en Vercel
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
-        });
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins(
+            "https://project-solicitud-permisos.vercel.app", // Producción (Vercel)
+            "http://localhost:4200"                          // Desarrollo Angular
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
 });
 
 // ------------------- Controllers -------------------
