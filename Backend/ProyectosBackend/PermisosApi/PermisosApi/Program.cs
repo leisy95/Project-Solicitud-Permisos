@@ -320,10 +320,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("https://project-solicitud-permisos.vercel.app") // 
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
+        policy.WithOrigins(
+            "http://localhost:4200", // desarrollo local Angular
+            "https://project-solicitud-permisos.vercel.app", // dominio prod Vercel
+            "https://project-solicitud-permisos-git-main-usuario.vercel.app" // previews de Vercel
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+        // OJO: quité AllowCredentials para que no choque con varios orígenes
     });
 });
 
