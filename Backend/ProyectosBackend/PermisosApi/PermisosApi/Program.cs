@@ -319,9 +319,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
-        policy => policy.WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+        policy => policy.WithOrigins(
+            "http://localhost:4200",
+            "https://project-solicitud-permisos.vercel.app" // tu dominio en Vercel
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
 
 // ------------------- Controllers -------------------
