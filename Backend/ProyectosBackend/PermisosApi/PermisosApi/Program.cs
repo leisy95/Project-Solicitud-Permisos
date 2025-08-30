@@ -320,7 +320,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
+        policy.WithOrigins("https://project-solicitud-permisos.vercel.app") // 
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
