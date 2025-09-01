@@ -109,20 +109,11 @@ public class AuthController : ControllerBase
             .Select(s => s[new Random().Next(s.Length)]).ToArray());
     }
 
-    //[HttpPost("registrar")]
-    //public async Task<IActionResult> RegistrarTemporal()
-    //{
-    //    var usuario = new Usuario
-    //    {
-    //        Nombre = "Admin",
-    //        Correo = "tucorreo@ejemplo.com",
-    //        ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
-    //        Rol = "Admin"
-    //    };
-
-    //    _context.Usuarios.Add(usuario);
-    //    await _context.SaveChangesAsync();
-
-    //    return Ok(new { mensaje = "Usuario creado para prueba." });
-    //}
+    [ApiController]
+    [Route("ping")]
+    public class PingController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult Get() => Ok("pong");
+    }
 }
