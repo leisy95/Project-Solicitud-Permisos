@@ -318,16 +318,14 @@ var builder = WebApplication.CreateBuilder(args);
 // ------------------- CORS -------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularApp", policy =>
-    {
-        policy.WithOrigins(
-            "https://project-solicitud-permisos.vercel.app", // Producción (Vercel)
-            "http://localhost:4200"                          // Desarrollo Angular
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
-    });
+    options.AddPolicy("AllowAngularApp",
+        policy =>
+        {
+            policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        });
 });
 
 // ------------------- Controllers -------------------
@@ -434,11 +432,13 @@ app.UseCors("AllowAngularApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
+   .WithMetadata(new Microsoft.AspNetCore.Cors.EnableCorsAttribute("AllowAngularApp"));
+
 app.UseStaticFiles();
 
 app.MapControllers();
-app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
-   .WithMetadata(new Microsoft.AspNetCore.Cors.EnableCorsAttribute("AllowAngularApp"));
 
 // ------------------- Inicializar DB y crear admin -------------------
 using (var scope = app.Services.CreateScope())
