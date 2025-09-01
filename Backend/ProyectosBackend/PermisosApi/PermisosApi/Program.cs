@@ -467,29 +467,37 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        Console.WriteLine("Iniciando migraciones...");
-        context.Database.Migrate();
-        Console.WriteLine("Migraciones completadas.");
-
-        if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
+        // Solo correr migraciones si estamos en producción
+        if (app.Environment.IsProduction())
         {
-            var admin = new Usuario
-            {
-                Nombre = "Admin",
-                Correo = "admin@admin.com",
-                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
-                Rol = "Admin"
-            };
+            Console.WriteLine("Iniciando migraciones en producción...");
+            context.Database.Migrate();
+            Console.WriteLine("Migraciones completadas.");
 
-            context.Usuarios.Add(admin);
-            context.SaveChanges();
-            Console.WriteLine("Usuario administrador creado automáticamente.");
+            // Crear usuario admin si no existe
+            if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
+            {
+                var admin = new Usuario
+                {
+                    Nombre = "Admin",
+                    Correo = "admin@admin.com",
+                    ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("1234"),
+                    Rol = "Admin"
+                };
+
+                context.Usuarios.Add(admin);
+                context.SaveChanges();
+                Console.WriteLine("Usuario administrador creado automáticamente.");
+            }
+            else
+            {
+                Console.WriteLine("El usuario administrador ya existe en la base de datos.");
+            }
         }
         else
         {
-            Console.WriteLine("El usuario administrador ya existe en la base de datos.");
+            Console.WriteLine("Entorno local detectado: no se ejecutan migraciones.");
         }
-
     }
     catch (Exception ex)
     {

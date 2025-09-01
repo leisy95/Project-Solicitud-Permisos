@@ -12,7 +12,7 @@ using PermisosApi.Data;
 namespace PermisosApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250823022523_InitialCreate")]
+    [Migration("20250901231854_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
