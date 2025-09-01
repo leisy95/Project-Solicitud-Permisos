@@ -467,21 +467,18 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Migraciones automáticas en cualquier entorno
+        // Siempre aplicar migraciones
         context.Database.Migrate();
         Console.WriteLine("Migraciones aplicadas correctamente.");
 
-        // Mostrar entorno actual
-        Console.WriteLine($"Entorno actual: {app.Environment.EnvironmentName}");
-
-        // Revisar si la tabla está vacía o si falta el admin
+        // Crear admin si no existe
         if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
         {
             var admin = new Usuario
             {
                 Nombre = "Admin",
                 Correo = "admin@admin.com",
-                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("1234"),
                 Rol = "Admin"
             };
 
@@ -491,20 +488,13 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            Console.WriteLine("Ya existe un usuario administrador.");
-        }
-
-        // Listar todos los usuarios para debug
-        foreach (var u in context.Usuarios)
-        {
-            Console.WriteLine($"Usuario encontrado en BD: {u.Correo}");
+            Console.WriteLine("El usuario admin ya existía.");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Error al inicializar la base de datos: " + ex.Message);
-        if (ex.InnerException != null)
-            Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+        Console.WriteLine("Error al inicializar la base de datos: " + ex);
+        Console.WriteLine(ex.ToString()); // Muestra toda la pila de errores
         throw;
     }
 }
