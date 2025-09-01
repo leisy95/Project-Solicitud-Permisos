@@ -467,12 +467,13 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Migraciones automáticas
+        Console.WriteLine("Iniciando migraciones...");
         context.Database.Migrate();
+        Console.WriteLine("Migraciones completadas.");
 
-        // Crear usuario admin si no existe
         if (!context.Usuarios.Any())
         {
+            Console.WriteLine("No existen usuarios, creando admin...");
             var admin = new Usuario
             {
                 Nombre = "Admin",
@@ -485,10 +486,16 @@ using (var scope = app.Services.CreateScope())
             context.SaveChanges();
             Console.WriteLine("Usuario administrador creado automáticamente.");
         }
+        else
+        {
+            Console.WriteLine("Ya existen usuarios en la base de datos.");
+        }
     }
     catch (Exception ex)
     {
         Console.WriteLine("Error al inicializar la base de datos: " + ex.Message);
+        if (ex.InnerException != null)
+            Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
         throw;
     }
 }
