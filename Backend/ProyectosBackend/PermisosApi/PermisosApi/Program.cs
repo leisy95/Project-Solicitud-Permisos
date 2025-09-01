@@ -471,9 +471,8 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
         Console.WriteLine("Migraciones completadas.");
 
-        if (!context.Usuarios.Any())
+        if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
         {
-            Console.WriteLine("No existen usuarios, creando admin...");
             var admin = new Usuario
             {
                 Nombre = "Admin",
@@ -488,8 +487,9 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            Console.WriteLine("Ya existen usuarios en la base de datos.");
+            Console.WriteLine("El usuario administrador ya existe en la base de datos.");
         }
+
     }
     catch (Exception ex)
     {
