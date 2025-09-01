@@ -427,12 +427,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseHttpsRedirection();
+
 
 app.UseCors("AllowAngularApp");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
+
 app.MapControllers();
+app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
+   .WithMetadata(new Microsoft.AspNetCore.Cors.EnableCorsAttribute("AllowAngularApp"));
 
 // ------------------- Inicializar DB y crear admin -------------------
 using (var scope = app.Services.CreateScope())
