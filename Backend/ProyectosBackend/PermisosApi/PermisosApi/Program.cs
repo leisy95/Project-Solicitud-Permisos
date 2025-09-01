@@ -324,7 +324,6 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
                   .AllowAnyMethod()
                   .AllowAnyHeader()
-                  .AllowCredentials();
         });
 });
 
@@ -425,11 +424,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
-
 
 app.UseCors("AllowAngularApp");
 
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
