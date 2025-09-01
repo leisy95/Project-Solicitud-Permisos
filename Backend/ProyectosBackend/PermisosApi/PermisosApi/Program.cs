@@ -467,36 +467,37 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Solo correr migraciones si estamos en producción
-        if (app.Environment.IsProduction())
+        // Migraciones automáticas en cualquier entorno
+        context.Database.Migrate();
+        Console.WriteLine("Migraciones aplicadas correctamente.");
+
+        // Mostrar entorno actual
+        Console.WriteLine($"Entorno actual: {app.Environment.EnvironmentName}");
+
+        // Revisar si la tabla está vacía o si falta el admin
+        if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
         {
-            Console.WriteLine("Iniciando migraciones en producción...");
-            context.Database.Migrate();
-            Console.WriteLine("Migraciones completadas.");
-
-            // Crear usuario admin si no existe
-            if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
+            var admin = new Usuario
             {
-                var admin = new Usuario
-                {
-                    Nombre = "Admin",
-                    Correo = "admin@admin.com",
-                    ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("1234"),
-                    Rol = "Admin"
-                };
+                Nombre = "Admin",
+                Correo = "admin@admin.com",
+                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+                Rol = "Admin"
+            };
 
-                context.Usuarios.Add(admin);
-                context.SaveChanges();
-                Console.WriteLine("Usuario administrador creado automáticamente.");
-            }
-            else
-            {
-                Console.WriteLine("El usuario administrador ya existe en la base de datos.");
-            }
+            context.Usuarios.Add(admin);
+            context.SaveChanges();
+            Console.WriteLine("Usuario administrador creado automáticamente.");
         }
         else
         {
-            Console.WriteLine("Entorno local detectado: no se ejecutan migraciones.");
+            Console.WriteLine("Ya existe un usuario administrador.");
+        }
+
+        // Listar todos los usuarios para debug
+        foreach (var u in context.Usuarios)
+        {
+            Console.WriteLine($"Usuario encontrado en BD: {u.Correo}");
         }
     }
     catch (Exception ex)
