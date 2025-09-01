@@ -323,7 +323,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
                   .AllowAnyMethod()
-                  .AllowAnyHeader()
+                  .AllowAnyHeader();
         });
 });
 
@@ -437,6 +437,21 @@ app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
 app.UseStaticFiles();
 
 app.MapControllers();
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "https://project-solicitud-permisos.vercel.app");
+        context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+        context.Response.StatusCode = 204;
+        return;
+    }
+
+    await next();
+});
 
 // ------------------- Inicializar DB y crear admin -------------------
 using (var scope = app.Services.CreateScope())
