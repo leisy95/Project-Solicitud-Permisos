@@ -393,37 +393,43 @@ builder.Services.AddScoped<EmailService>();
 // ------------------- Configuración de DB -------------------
 
 // Leer DATABASE_PUBLIC_URL de Railway
-var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_PUBLIC_URL");
+var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL")
+                 ?? Environment.GetEnvironmentVariable("DATABASE_PUBLIC_URL");
 
 if (string.IsNullOrEmpty(connectionUrl))
 {
-    // fallback a tu appsettings.Development.json cuando corras local
-    connectionUrl = builder.Configuration.GetConnectionString("DefaultConnection");
+    throw new Exception("No se encontró la cadena de conexión de la base de datos en las variables de entorno.");
 }
 
 // Convertir URL de Railway a formato que Npgsql entienda
 var databaseUri = new Uri(connectionUrl);
 var userInfo = databaseUri.UserInfo.Split(':');
 
-var builderConn = new NpgsqlConnectionStringBuilder
+var builderConn = new Npgsql.NpgsqlConnectionStringBuilder
 {
     Host = databaseUri.Host,
     Port = databaseUri.Port,
     Username = userInfo[0],
     Password = userInfo[1],
-    Database = databaseUri.LocalPath.TrimStart('/')
+    Database = databaseUri.LocalPath.TrimStart('/'),
+    SslMode = SslMode.Prefer,
+    TrustServerCertificate = true
 };
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builderConn.ConnectionString));
 
 var app = builder.Build();
 
-// ------------------- Middleware -------------------
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//// ------------------- Middleware -------------------
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAngularApp");
 
@@ -487,4 +493,4 @@ using (var scope = app.Services.CreateScope())
     }
 }
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-app.Run($"http://*:{port}");
+app.Run($"http://0.0.0.0:{port}");
