@@ -467,11 +467,10 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Siempre aplicar migraciones
-        context.Database.Migrate();
-        Console.WriteLine("Migraciones aplicadas correctamente.");
+        Console.WriteLine("Aplicando migraciones en producción...");
+        context.Database.Migrate();  // Esto crea tablas pendientes
+        Console.WriteLine("Migraciones completadas.");
 
-        // Crear admin si no existe
         if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
         {
             var admin = new Usuario
@@ -488,13 +487,14 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            Console.WriteLine("El usuario admin ya existía.");
+            Console.WriteLine("El usuario administrador ya existe.");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Error al inicializar la base de datos: " + ex);
-        Console.WriteLine(ex.ToString()); // Muestra toda la pila de errores
+        Console.WriteLine("Error inicializando DB: " + ex.Message);
+        if (ex.InnerException != null)
+            Console.WriteLine("Inner: " + ex.InnerException.Message);
         throw;
     }
 }
