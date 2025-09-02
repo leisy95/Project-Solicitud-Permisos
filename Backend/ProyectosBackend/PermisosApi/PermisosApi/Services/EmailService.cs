@@ -84,19 +84,18 @@ namespace PermisosApi.Services
 
         public async Task EnviarCorreoAsync(string destino, string asunto, string cuerpo)
         {
-            var smtpHost = Environment.GetEnvironmentVariable("SMTP_HOST");
-            var smtpPort = Environment.GetEnvironmentVariable("SMTP_PORT");
+            var smtpConfig = _config.GetSection("Smtp");
+
             var smtpUser = Environment.GetEnvironmentVariable("SMTP_USER");
             var smtpPass = Environment.GetEnvironmentVariable("SMTP_PASS");
-            var enableSsl = Environment.GetEnvironmentVariable("SMTP_ENABLESSL");
 
             if (string.IsNullOrEmpty(smtpUser) || string.IsNullOrEmpty(smtpPass))
                 throw new InvalidOperationException("Las credenciales SMTP no están definidas en el entorno.");
 
-            using var cliente = new SmtpClient(smtpHost, int.Parse(smtpPort))
+            using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
             {
                 Credentials = new NetworkCredential(smtpUser, smtpPass),
-                EnableSsl = bool.Parse(enableSsl ?? "true")
+                EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
             };
 
             var mensaje = new MailMessage(smtpUser, destino, asunto, cuerpo);
