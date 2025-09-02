@@ -318,14 +318,17 @@ var builder = WebApplication.CreateBuilder(args);
 // ------------------- CORS -------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularApp",
-        policy =>
-        {
-            policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-        });
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
+
+var app = builder.Build();
+
+app.UseCors();
 
 // ------------------- Controllers -------------------
 builder.Services.AddControllers();
@@ -465,37 +468,20 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
 
-    try
-    {
-        Console.WriteLine("Aplicando migraciones en producción...");
-        context.Database.Migrate();  // Esto crea tablas pendientes
-        Console.WriteLine("Migraciones completadas.");
+    context.Database.Migrate(); // Aplica migraciones
 
-        if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
-        {
-            var admin = new Usuario
-            {
-                Nombre = "Admin",
-                Correo = "admin@admin.com",
-                ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("1234"),
-                Rol = "Admin"
-            };
-
-            context.Usuarios.Add(admin);
-            context.SaveChanges();
-            Console.WriteLine("Usuario administrador creado automáticamente.");
-        }
-        else
-        {
-            Console.WriteLine("El usuario administrador ya existe.");
-        }
-    }
-    catch (Exception ex)
+    if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
     {
-        Console.WriteLine("Error inicializando DB: " + ex.Message);
-        if (ex.InnerException != null)
-            Console.WriteLine("Inner: " + ex.InnerException.Message);
-        throw;
+        var admin = new Usuario
+        {
+            Nombre = "Admin",
+            Correo = "admin@admin.com",
+            ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
+            Rol = "Admin"
+        };
+        context.Usuarios.Add(admin);
+        context.SaveChanges();
+        Console.WriteLine("Usuario administrador creado automáticamente.");
     }
 }
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
