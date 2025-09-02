@@ -46,13 +46,15 @@ export class CrearUsuarioComponent {
 
         // Crear usuario si el correo no existe
         this.http.post(`${environment.apiUrl}/auth/crear-usuario`, datos, { headers }).subscribe({
-          next: () => {
-            this.alert.exito('Éxito', 'Usuario creado y correo enviado correctamente');
+          next: (resp: any) => {
+            // Usa el mensaje que devuelve el backend
+            const mensaje = resp?.mensaje || 'Usuario creado y correo enviado correctamente';
+            this.alert.exito('Éxito', mensaje);
             this.usuarioForm.reset({ rol: 'Usuario' });
           },
           error: (err) => {
             console.error(err);
-            if (err.error && err.error.mensaje) {
+            if (err.error?.mensaje) {
               this.alert.error('Error', err.error.mensaje);
             } else {
               this.alert.error('Error', 'Error al crear el usuario');
