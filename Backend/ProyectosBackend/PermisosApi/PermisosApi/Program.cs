@@ -318,9 +318,9 @@ var builder = WebApplication.CreateBuilder(args);
 // ------------------- CORS -------------------
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("https://project-solicitud-permisos.vercel.app/")
+        policy.WithOrigins("https://project-solicitud-permisos.vercel.app") 
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
