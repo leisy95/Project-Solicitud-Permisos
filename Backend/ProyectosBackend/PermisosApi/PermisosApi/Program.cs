@@ -302,7 +302,7 @@
 
 //app.Run();
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+/*using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -462,5 +462,164 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("Usuario administrador creado automáticamente.");
     }
 }
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Run($"http://0.0.0.0:{port}");
+*/
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using PermisosApi.Data;
+using PermisosApi.Models;
+using PermisosApi.Services;
+using System;
+using System.Text;
+using Npgsql;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ------------------- CORS -------------------
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("https://project-solicitud-permisos.vercel.app") // sin '/'
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+// ------------------- Controllers -------------------
+builder.Services.AddControllers();
+
+// ------------------- JWT -------------------
+var claveSecreta = builder.Configuration["Jwt:Key"];
+var clave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = clave
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// ------------------- Swagger -------------------
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "Permisos API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Ingrese el token JWT con el formato: Bearer {token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// ------------------- Servicios -------------------
+builder.Services.AddScoped<EmailService>();
+
+// ------------------- Configuración de DB -------------------
+var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL")
+                 ?? Environment.GetEnvironmentVariable("DATABASE_PUBLIC_URL");
+
+if (string.IsNullOrEmpty(connectionUrl))
+{
+    throw new Exception("No se encontró la cadena de conexión de la base de datos en las variables de entorno.");
+}
+
+// Convertir URL de Railway a formato Npgsql
+var databaseUri = new Uri(connectionUrl);
+var userInfo = databaseUri.UserInfo.Split(':');
+
+var builderConn = new NpgsqlConnectionStringBuilder
+{
+    Host = databaseUri.Host,
+    Port = databaseUri.Port,
+    Username = userInfo[0],
+    Password = userInfo[1],
+    Database = databaseUri.LocalPath.TrimStart('/'),
+    SslMode = SslMode.Prefer,
+    TrustServerCertificate = true
+};
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builderConn.ConnectionString));
+
+var app = builder.Build();
+
+// ------------------- Middleware -------------------
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+// Importante: CORS antes de autenticación y autorización
+app.UseCors("AllowAngularApp");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseStaticFiles();
+
+app.MapControllers();
+
+// ------------------- Inicializar DB y crear admin -------------------
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    context.Database.Migrate();
+
+    if (!context.Usuarios.Any(u => u.Correo == "admin@admin.com"))
+    {
+        var admin = new Usuario
+        {
+            Nombre = "Admin",
+            Correo = "admin@admin.com",
+            ContrasenaHash = BCrypt.Net.BCrypt.HashPassword("1234"),
+            Rol = "Admin"
+        };
+        context.Usuarios.Add(admin);
+        context.SaveChanges();
+        Console.WriteLine("Usuario administrador creado automáticamente.");
+    }
+}
+
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 app.Run($"http://0.0.0.0:{port}");
