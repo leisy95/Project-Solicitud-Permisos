@@ -95,14 +95,22 @@ public class AuthController : ControllerBase
          _context.Usuarios.Add(nuevoUsuario);
          await _context.SaveChangesAsync();
 
-         // Enviar correo
-         await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
-             $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
+        // Enviar correo
+        try
+        {
+            await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
+                $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
+        }
+        catch (Exception ex)
+        {
+            // Log del error, pero no rompas la API
+            Console.WriteLine($"Error al enviar correo: {ex.Message}");
+        }
 
-         return Ok(new { mensaje = "Usuario creado y correo enviado" });
-     }
+        return Ok(new { mensaje = "Usuario creado (correo enviado si fue posible)" });
+    }
 
-     private string GenerarContrasena()
+    private string GenerarContrasena()
      {
          var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#!$";
          return new string(Enumerable.Repeat(caracteres, 10)
