@@ -36,7 +36,7 @@ export class CrearUsuarioComponent {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
     // Validación: obtener usuarios existentes y revisar si el correo ya está registrado
-    this.http.get<any[]>(`${environment.apiUrl}/auth/usuarios`, { headers }).subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/usuarios`, { headers }).subscribe({
       next: (usuarios) => {
         const correoExistente = usuarios.some(u => u.correo === datos.correo);
         if (correoExistente) {

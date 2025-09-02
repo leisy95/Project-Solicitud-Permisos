@@ -20,7 +20,10 @@ namespace PermisosApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTodosUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
+
+            var usuarios = await _context.Usuarios
+                .Select(u => new { u.Id, u.Nombre, u.Correo, u.Rol })
+                .ToListAsync();
             return Ok(usuarios);
         }
 
