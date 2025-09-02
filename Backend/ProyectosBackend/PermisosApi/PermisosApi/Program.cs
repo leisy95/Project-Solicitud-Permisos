@@ -320,15 +320,11 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
+        policy.WithOrigins("https://project-solicitud-permisos.vercel.app/")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
-
-var app = builder.Build();
-
-app.UseCors();
 
 // ------------------- Controllers -------------------
 builder.Services.AddControllers();
@@ -440,27 +436,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok())
-   .WithMetadata(new Microsoft.AspNetCore.Cors.EnableCorsAttribute("AllowAngularApp"));
-
 app.UseStaticFiles();
 
 app.MapControllers();
-
-app.Use(async (context, next) =>
-{
-    if (context.Request.Method == "OPTIONS")
-    {
-        context.Response.Headers.Add("Access-Control-Allow-Origin", "https://project-solicitud-permisos.vercel.app");
-        context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-        context.Response.StatusCode = 204;
-        return;
-    }
-
-    await next();
-});
 
 // ------------------- Inicializar DB y crear admin -------------------
 using (var scope = app.Services.CreateScope())
