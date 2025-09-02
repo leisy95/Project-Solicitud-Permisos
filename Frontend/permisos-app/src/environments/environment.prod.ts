@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'project-solicitud-permisos-dashboard.up.railway.app/api'
+  apiUrl: 'https://project-solicitud-permisos-dashboard.up.railway.app/api'
 };
