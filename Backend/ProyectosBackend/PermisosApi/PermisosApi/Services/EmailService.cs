@@ -1,4 +1,35 @@
-﻿using System.Net;
+﻿//using System.Net;
+//using System.Net.Mail;
+//using Microsoft.Extensions.Configuration;
+
+//namespace PermisosApi.Services
+//{
+//    public class EmailService
+//    {
+//        private readonly IConfiguration _config;
+
+//        public EmailService(IConfiguration config)
+//        {
+//            _config = config;
+//        }
+
+//        public async Task EnviarCorreoAsync(string destino, string asunto, string cuerpo)
+//        {
+//            var smtpConfig = _config.GetSection("Smtp");
+
+//            using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
+//            {
+//                Credentials = new NetworkCredential(smtpConfig["User"], smtpConfig["Password"]),
+//                EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
+//            };
+
+//            var mensaje = new MailMessage(smtpConfig["User"], destino, asunto, cuerpo);
+//            await cliente.SendMailAsync(mensaje);
+//        }
+//    }
+//}
+
+using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 
@@ -17,13 +48,16 @@ namespace PermisosApi.Services
         {
             var smtpConfig = _config.GetSection("Smtp");
 
+            var user = Environment.GetEnvironmentVariable("SMTP_USER") ?? smtpConfig["User"];
+            var pass = Environment.GetEnvironmentVariable("SMTP_PASS") ?? smtpConfig["Password"];
+
             using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
             {
-                Credentials = new NetworkCredential(smtpConfig["User"], smtpConfig["Password"]),
+                Credentials = new NetworkCredential(user, pass),
                 EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
             };
 
-            var mensaje = new MailMessage(smtpConfig["User"], destino, asunto, cuerpo);
+            var mensaje = new MailMessage(user, destino, asunto, cuerpo);
             await cliente.SendMailAsync(mensaje);
         }
     }
