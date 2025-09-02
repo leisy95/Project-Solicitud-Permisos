@@ -1,26 +1,26 @@
-# Etapa 1: Build
+# Imagen base (runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+# Imagen SDK para compilar
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar la solución y el proyecto
-COPY PermisosApi.sln ./
-COPY PermisosApi/ ./PermisosApi/
+COPY PermisosApi/PermisosApi.sln ./
+COPY PermisosApi/PermisosApi/PermisosApi.csproj PermisosApi/
 
-# Restaurar dependencias
-RUN dotnet restore PermisosApi/PermisosApi.csproj
+RUN dotnet restore PermisosApi.sln
 
-# Construir el proyecto
+COPY PermisosApi/. ./PermisosApi/
+
 WORKDIR /src/PermisosApi
+RUN dotnet build -c Release -o /app/build
+
+FROM build AS publish
 RUN dotnet publish -c Release -o /app/publish
 
-# Etapa 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/publish ./
-
-# Exponer puerto
-EXPOSE 80
-EXPOSE 443
-
-# Comando para iniciar la aplicación
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
