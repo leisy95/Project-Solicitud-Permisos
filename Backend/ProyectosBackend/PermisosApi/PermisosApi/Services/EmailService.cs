@@ -85,21 +85,27 @@ namespace PermisosApi.Services
         public async Task EnviarCorreoAsync(string destino, string asunto, string cuerpo)
         {
             var smtpConfig = _config.GetSection("Smtp");
-
             var smtpUser = Environment.GetEnvironmentVariable("SMTP_USER");
             var smtpPass = Environment.GetEnvironmentVariable("SMTP_PASS");
 
             if (string.IsNullOrEmpty(smtpUser) || string.IsNullOrEmpty(smtpPass))
                 throw new InvalidOperationException("Las credenciales SMTP no están definidas en el entorno.");
 
-            using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
+            try
             {
-                Credentials = new NetworkCredential(smtpUser, smtpPass),
-                EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
-            };
+                using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
+                {
+                    Credentials = new NetworkCredential(smtpUser, smtpPass),
+                    EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
+                };
 
-            var mensaje = new MailMessage(smtpUser, destino, asunto, cuerpo);
-            await cliente.SendMailAsync(mensaje);
+                var mensaje = new MailMessage(smtpUser, destino, asunto, cuerpo);
+                await cliente.SendMailAsync(mensaje);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error al enviar correo: {ex.Message}", ex);
+            }
         }
     }
 }
