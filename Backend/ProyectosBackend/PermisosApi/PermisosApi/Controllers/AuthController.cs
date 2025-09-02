@@ -96,8 +96,20 @@ public class AuthController : ControllerBase
         await _context.SaveChangesAsync();
 
         // Enviar correo
-        await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
-            $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
+        try
+        {
+            await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
+                $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
+        }
+        catch (Exception ex)
+        {
+            // Esto se verá en los logs de Railway
+            Console.WriteLine($"Error enviando correo: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+
+            // OJO: no tumbamos la creación del usuario, solo avisamos
+            return Ok(new { mensaje = "Usuario creado, pero no se pudo enviar el correo", error = ex.Message });
+        }
 
         return Ok(new { mensaje = "Usuario creado y correo enviado" });
     }
@@ -107,13 +119,5 @@ public class AuthController : ControllerBase
         var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#!$";
         return new string(Enumerable.Repeat(caracteres, 10)
             .Select(s => s[new Random().Next(s.Length)]).ToArray());
-    }
-
-    [ApiController]
-    [Route("ping")]
-    public class PingController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get() => Ok("pong");
     }
 }
