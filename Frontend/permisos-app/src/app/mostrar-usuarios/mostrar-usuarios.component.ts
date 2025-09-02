@@ -49,7 +49,7 @@ export class MostrarUsuariosComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.delete(`http://localhost:5206/api/usuarios/${id}`, { headers })
+    this.http.delete(`${environment.apiUrl}/usuarios/${id}`, { headers })
       .subscribe({
         next: () => {
           this.alert.exito('perfecto','Usuario eliminado correctamente.')
