@@ -33,7 +33,9 @@ export class CrearUsuarioComponent {
 
     const datos = this.usuarioForm.value;
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
 
     // Validación: obtener usuarios existentes y revisar si el correo ya está registrado
     this.http.get<any[]>(`${environment.apiUrl}/usuarios`, { headers }).subscribe({
