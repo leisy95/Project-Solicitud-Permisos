@@ -1,25 +1,23 @@
-# Stage 1: Build
+# Etapa base
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-# Copiar todo el proyecto
+# Copiar todo el contenido
 COPY . .
 
-# Restaurar dependencias apuntando al csproj
+# Restaurar dependencias del proyecto específico
 RUN dotnet restore PermisosApi/PermisosApi.csproj
 
-# Compilar y publicar
+# Construir y publicar
 RUN dotnet publish PermisosApi/PermisosApi.csproj -c Release -o /app/publish
 
-# Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+# Etapa runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
-
-# Copiar el output del build
 COPY --from=build /app/publish .
 
-# Puerto por defecto
-ENV ASPNETCORE_URLS=http://+:8080
+# Exponer puerto
+EXPOSE 8080
 
 # Ejecutar la app
 ENTRYPOINT ["dotnet", "PermisosApi.dll"]
