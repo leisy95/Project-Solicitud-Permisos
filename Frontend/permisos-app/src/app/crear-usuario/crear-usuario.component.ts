@@ -35,14 +35,34 @@ export class CrearUsuarioComponent {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
-    this.http.post(`${environment.apiUrl}/auth/crear-usuario`, datos, { headers }).subscribe({
-      next: () => {
-        this.alert.exito('Exito', 'Usuario creado y correo enviado correctamente' );
-        this.usuarioForm.reset({ rol: 'Usuario' });
+    // Validación: obtener usuarios existentes y revisar si el correo ya está registrado
+    this.http.get<any[]>(`${environment.apiUrl}/auth/usuarios`, { headers }).subscribe({
+      next: (usuarios) => {
+        const correoExistente = usuarios.some(u => u.correo === datos.correo);
+        if (correoExistente) {
+          this.alert.error('Error', 'El correo ya está registrado');
+          return;
+        }
+
+        // Crear usuario si el correo no existe
+        this.http.post(`${environment.apiUrl}/auth/crear-usuario`, datos, { headers }).subscribe({
+          next: () => {
+            this.alert.exito('Éxito', 'Usuario creado y correo enviado correctamente');
+            this.usuarioForm.reset({ rol: 'Usuario' });
+          },
+          error: (err) => {
+            console.error(err);
+            if (err.error && err.error.mensaje) {
+              this.alert.error('Error', err.error.mensaje);
+            } else {
+              this.alert.error('Error', 'Error al crear el usuario');
+            }
+          }
+        });
       },
       error: (err) => {
         console.error(err);
-        this.alert.error('Error', 'Error al crear el usuario' );
+        this.alert.error('Error', 'No se pudo verificar si el correo existe');
       }
     });
   }
