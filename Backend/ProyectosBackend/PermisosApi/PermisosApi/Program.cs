@@ -486,8 +486,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("https://project-solicitud-permisos.vercel.app")
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials(); // necesario si envías Authorization header
+              .AllowAnyMethod();
     });
 });
 
