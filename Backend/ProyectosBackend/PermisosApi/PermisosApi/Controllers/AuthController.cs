@@ -73,7 +73,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    /* [HttpPost("crear-usuario")]
+    [HttpPost("crear-usuario")]
      [Authorize(Roles = "Admin")]
      public async Task<IActionResult> RegistrarUsuario([FromBody] RegistrarUsuarioDto dto)
      {
@@ -109,53 +109,3 @@ public class AuthController : ControllerBase
              .Select(s => s[new Random().Next(s.Length)]).ToArray());
      }
  }
-    */
-
-    [HttpPost("crear-usuario")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> RegistrarUsuario([FromBody] RegistrarUsuarioDto dto)
-    {
-        var existe = await _context.Usuarios.AnyAsync(u => u.Correo == dto.Correo);
-        if (existe)
-            return BadRequest(new { mensaje = "El correo ya está registrado" });
-
-        var contrasenaGenerada = GenerarContrasena();
-        var hash = BCrypt.Net.BCrypt.HashPassword(contrasenaGenerada);
-
-        var nuevoUsuario = new Usuario
-        {
-            Nombre = dto.Nombre,
-            Correo = dto.Correo,
-            ContrasenaHash = hash,
-            Rol = dto.Rol
-        };
-
-        _context.Usuarios.Add(nuevoUsuario);
-        await _context.SaveChangesAsync();
-
-        try
-        {
-            // Enviar correo
-            await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
-                $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
-
-            return Ok(new { mensaje = "Usuario creado y correo enviado" });
-        }
-        catch (Exception ex)
-        {
-            // Log en Railway
-            Console.WriteLine($"Error enviando correo: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-
-            // El usuario queda creado aunque falle el correo
-            return Ok(new { mensaje = "Usuario creado, pero no se pudo enviar el correo", error = ex.Message });
-        }
-    }
-
-    private string GenerarContrasena()
-    {
-        var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#!$";
-        return new string(Enumerable.Repeat(caracteres, 10)
-            .Select(s => s[new Random().Next(s.Length)]).ToArray());
-    }
-}
