@@ -9,16 +9,16 @@
       <form #formulario="ngForm" (ngSubmit)="enviarSolicitud()" novalidate>
         <div>
           <label>Nombre:</label>
-          <input type="text" placeholder="Nombre" [(ngModel)]="permiso.nombre" placeholder="Nombre" name="Nombre"
-            [ngClass]="{'invalido': errores?.Nombre}" required />
+          <input type="text" [(ngModel)]="permiso.nombre" placeholder="Nombre" name="Nombre"
+            [ngClass]="{'invalido': errores?.Nombre}" required readonly/>
           <div class="error" *ngIf="errores?.Nombre">
             {{ errores.Nombre[0] }}
           </div>
         </div>
         <div>
           <label>Correo:</label>
-          <input type="email" placeholder="Correo" [(ngModel)]="permiso.correo" name="Correo" placeholder="Correo"
-            [ngClass]="{'invalido': errores?.Correo}" required />
+          <input type="email" [(ngModel)]="permiso.correo" name="Correo" placeholder="Correo"
+            [ngClass]="{'invalido': errores?.Correo}" required readonly/>
           <div class="error" *ngIf="errores?.Correo">
             {{ errores.Correo[0] }}
           </div>

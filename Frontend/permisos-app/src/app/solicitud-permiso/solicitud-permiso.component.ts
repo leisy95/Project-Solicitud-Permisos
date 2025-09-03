@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AlertService } from '../services/alert.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-solicitud-permiso',
@@ -22,7 +23,19 @@ export class SolicitudPermisoComponent {
   errores: any = {}; //Guardar errores por campo
   archivoSeleccionado?: File;
 
-  constructor(private http: HttpClient, private router: Router, private alert: AlertService) { }
+  constructor(private http: HttpClient,
+    private router: Router,
+    private alert: AlertService,
+    private authService: AuthService) { }
+
+  ngOnInit(): void {
+    const user = this.authService.getUserData();
+    if (user) {
+      this.permiso.nombre = user.nombre;
+      this.permiso.correo = user.email;
+    }
+  }
+
 
   onArchivoSeleccionado(event: any): void {
     const archivo = event.target.files[0];
@@ -58,7 +71,7 @@ export class SolicitudPermisoComponent {
       },
       error: (err) => {
         if (err.status === 400 && err.error) {
-          this.errores = err.error; 
+          this.errores = err.error;
         } else {
           this.alert.error('Error', 'Ocurrió un error inesperado al enviar la solicitud.');
         }

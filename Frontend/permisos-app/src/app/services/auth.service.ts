@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -40,6 +41,22 @@ export class AuthService {
 
   getRol(): string | null {
     return localStorage.getItem('rol');
+  }
+
+  getUserData() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      return {
+        nombre: decoded.nombre,
+        email: decoded.email
+      };
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      return null;
+    }
   }
 }
 
