@@ -10,7 +10,7 @@ import { AuthGuard } from './services/AuthGuard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'solicitud-permiso', component: SolicitudPermisoComponent, canActivate: [AuthGuard] },
+  { path: 'solicitud', component: SolicitudPermisoComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
     component: DashboardComponent, canActivate: [AuthGuard],
