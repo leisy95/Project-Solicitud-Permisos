@@ -70,8 +70,7 @@ namespace PermisosApi.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar solicitud: {ex.Message}");
-                Console.WriteLine($"InnerException: {ex.InnerException?.Message}"); 
+                Console.WriteLine($"Error al guardar solicitud: {ex}");
                 return StatusCode(500, new { mensaje = "Error interno", error = ex.Message });
             }
         }
