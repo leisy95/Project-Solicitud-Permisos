@@ -32,7 +32,7 @@ export class SolicitudPermisoComponent {
     const user = this.authService.getUserData();
     if (user) {
       this.permiso.nombre = user.nombre;
-      this.permiso.correo = user.email;
+      this.permiso.correo = user.correo;
     }
   }
 
