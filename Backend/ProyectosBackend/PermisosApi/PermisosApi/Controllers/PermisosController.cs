@@ -70,9 +70,10 @@ namespace PermisosApi.Controllers
             }
             catch (Exception ex)
             {
-                // Imprime excepción completa con stack trace
-                Console.WriteLine("Error al guardar solicitud:");
-                Console.WriteLine(ex.ToString());
+                // Imprime toda la información del error
+                Console.WriteLine("=== ERROR AL GUARDAR SOLICITUD ===");
+                Console.WriteLine(ex.ToString()); // imprime stack trace completo
+                Console.WriteLine("==================================");
 
                 return StatusCode(500, new { mensaje = "Error interno", error = ex.Message });
             }
