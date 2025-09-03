@@ -45,7 +45,7 @@ export class SolicitudPermisoComponent {
     }
 
     this.http.post<{ mensaje: string }>(
-       `${environment.apiUrl}/permisos`,
+      `${environment.apiUrl}/permisos`,
       formData,
       {
         headers: {}
@@ -57,10 +57,10 @@ export class SolicitudPermisoComponent {
         this.archivoSeleccionado = undefined;
       },
       error: (err) => {
-        if (err.status === 400 && err.error && err.error.errors) {
-          this.errores = err.error.errors;
+        if (err.status === 400 && err.error) {
+          this.errores = err.error; 
         } else {
-           this.alert.error('Error', 'Ocurrió un error inesperado al enviar la solicitud.')
+          this.alert.error('Error', 'Ocurrió un error inesperado al enviar la solicitud.');
         }
       }
     });
