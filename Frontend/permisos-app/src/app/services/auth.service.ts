@@ -49,9 +49,11 @@ export class AuthService {
 
     try {
       const decoded: any = jwtDecode(token);
+      console.log('Token decodificado:', decoded); // 👈 verifica en consola
+
       return {
-        nombre: decoded.nombre,
-        correo: decoded.correo
+        nombre: decoded.nombre || '',
+        email: decoded.correo || ''
       };
     } catch (error) {
       console.error('Error al decodificar el token:', error);
