@@ -36,12 +36,12 @@ export class SolicitudPermisoComponent {
     this.errores = {}; // Limpia errores anteriores
 
     const formData = new FormData();
-    formData.append('nombre', this.permiso.nombre);
-    formData.append('correo', this.permiso.correo);
-    formData.append('motivo', this.permiso.motivo);
+    formData.append('Nombre', this.permiso.nombre);
+    formData.append('Correo', this.permiso.correo);
+    formData.append('Motivo', this.permiso.motivo);
 
     if (this.permiso.archivo) {
-      formData.append('archivo', this.permiso.archivo);
+      formData.append('Archivo', this.permiso.archivo);
     }
 
     this.http.post<{ mensaje: string }>(
