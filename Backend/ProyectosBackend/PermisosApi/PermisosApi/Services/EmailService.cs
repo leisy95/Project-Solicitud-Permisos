@@ -47,9 +47,9 @@ namespace PermisosApi.Services
         {
             try
             {
-                var apiKey = _config["SendGrid__ApiKey"];
-                var fromEmail = _config["SendGrid__FromEmail"];
-                var fromName = _config["SendGrid__FromName"];
+                var apiKey = _config["SendGrid:ApiKey"];
+                var fromEmail = _config["SendGrid:FromEmail"];
+                var fromName = _config["SendGrid:FromName"];
 
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress(fromEmail, fromName);
@@ -57,7 +57,15 @@ namespace PermisosApi.Services
                 var msg = MailHelper.CreateSingleEmail(from, to, asunto, cuerpo, $"<p>{cuerpo}</p>");
                 var response = await client.SendEmailAsync(msg);
 
+                // Debug detallado
+                var body = await response.Body.ReadAsStringAsync();
                 Console.WriteLine($"SendGrid Status: {response.StatusCode}");
+                Console.WriteLine($"SendGrid Body: {body}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("El correo no se pudo enviar. Revisa la API Key y el remitente.");
+                }
 
                 return response.IsSuccessStatusCode;
             }
