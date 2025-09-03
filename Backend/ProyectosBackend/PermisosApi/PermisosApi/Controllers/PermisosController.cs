@@ -43,8 +43,16 @@ namespace PermisosApi.Controllers
                 // Validación extra del archivo (opcional)
                 if (dto.Archivo != null && dto.Archivo.Length > 0)
                 {
+                    var carpetaArchivos = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Archivos");
+
+                    // Crear la carpeta si no existe
+                    if (!Directory.Exists(carpetaArchivos))
+                    {
+                        Directory.CreateDirectory(carpetaArchivos);
+                    }
+
                     var nombreArchivo = Path.GetFileName(dto.Archivo.FileName);
-                    var rutaGuardado = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Archivos", nombreArchivo);
+                    var rutaGuardado = Path.Combine(carpetaArchivos, nombreArchivo);
 
                     using (var stream = new FileStream(rutaGuardado, FileMode.Create))
                     {
