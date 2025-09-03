@@ -175,5 +175,20 @@ namespace PermisosApi.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> EliminarUsuario(int id)
+        {
+            var usuario = await _context.Permisos.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            _context.Permisos.Remove(usuario);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
