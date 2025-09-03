@@ -95,7 +95,7 @@ export class AdminPanelComponent implements OnInit {
   actualizarEstado(id: number, estado: string) {
     const body = { Estado: estado };  // debe coincidir con EstadoPermisoDto
 
-    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/permisos/${id}`, body)
+    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/permiso/${id}`, body)
       .subscribe({
         next: (res) => {
           this.alertService.exito('Bien', 'Estado actualizado correctamente')
@@ -111,7 +111,7 @@ export class AdminPanelComponent implements OnInit {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.delete(`${environment.apiUrl}/permiso/${id}`, { headers })
+    this.http.delete(`${environment.apiUrl}/permisos/${id}`, { headers })
       .subscribe({
         next: () => {
           this.alertService.exito('perfecto', 'Registro eliminado correctamente.')
