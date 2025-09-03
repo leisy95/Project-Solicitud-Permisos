@@ -13,7 +13,7 @@ namespace PermisosApi.Models
         
         [Required(ErrorMessage = "El motivo es obligatorio")]
         public string Motivo { get; set; }
-        public DateTime FechaSolicitud { get; set; } = DateTime.Now;
+        public DateTime FechaSolicitud { get; set; } = DateTime.UtcNow;
         public string Estado { get; set; } = "Pendiente";
         public string? ArchivoPdf { get; set; }
     }
