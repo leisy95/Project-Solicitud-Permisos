@@ -95,7 +95,7 @@ export class AdminPanelComponent implements OnInit {
   actualizarEstado(id: number, estado: string) {
     const body = { Estado: estado };  // debe coincidir con EstadoPermisoDto
 
-    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/${id}`, body)
+    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/permisos/${id}`, body)
       .subscribe({
         next: (res) => {
           this.alertService.exito('Bien','Estado actualizado correctamente')
