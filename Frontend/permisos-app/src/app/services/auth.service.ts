@@ -5,13 +5,13 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl =  `${environment.apiUrl}/auth`;
+  private apiUrl = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(datos: { correo: string; contrasena: string }) {
-  return this.http.post<{ token: string, rol: string }>(`${this.apiUrl}/login`, datos);
-}
+    return this.http.post<{ token: string, rol: string }>(`${this.apiUrl}/login`, datos);
+  }
 
   guardarToken(token: string) {
     localStorage.setItem('token', token);
@@ -26,18 +26,18 @@ export class AuthService {
   // }
 
   eliminarToken() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('rol');
-}
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+  }
 
   isLoggedIn(): boolean {
-  const token = this.obtenerToken();
-  if (!token) return false;
+    const token = this.obtenerToken();
+    if (!token) return false;
 
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  const expiracion = payload.exp * 1000; // en milisegundos
-  return Date.now() < expiracion;
-}
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiracion = payload.exp * 1000; // en milisegundos
+    return Date.now() < expiracion;
+  }
 
   getRol(): string | null {
     return localStorage.getItem('rol');
@@ -47,17 +47,11 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) return null;
 
-    try {
-      const decoded: any = jwtDecode(token);
-
-      return {
-        nombre: decoded.nombre || '',
-        email: decoded.correo || ''
-      };
-    } catch (error) {
-      console.error('Error al decodificar el token:', error);
-      return null;
-    }
+    const decoded: any = jwtDecode(token);
+    return {
+      nombre: decoded.nombre || '',
+      email: decoded.correo || ''
+    };
   }
 }
 
