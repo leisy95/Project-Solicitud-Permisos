@@ -68,7 +68,7 @@ namespace PermisosApi.Controllers
                     Motivo = dto.Motivo,
                     FechaSolicitud = DateTime.UtcNow,
                     Estado = "Pendiente",
-                    ArchivoPdf = dto.Archivo?.FileName // Esto es un campo nuevo en tu entidad Permiso
+                    ArchivoPdf = dto.Archivo?.FileName 
                 };
 
                 _context.Permisos.Add(permiso);
@@ -78,10 +78,8 @@ namespace PermisosApi.Controllers
             }
             catch (Exception ex)
             {
-                // Imprime toda la información del error
+                // Imprime info del error
                 Console.WriteLine("=== ERROR AL GUARDAR SOLICITUD ===");
-                Console.WriteLine(ex.ToString()); // imprime stack trace completo
-                Console.WriteLine("==================================");
 
                 return StatusCode(500, new { mensaje = "Error interno", error = ex.Message });
             }
@@ -92,19 +90,20 @@ namespace PermisosApi.Controllers
         [HttpGet("solicitudes")]
         public async Task<IActionResult> ObtenerSolicitudes([FromQuery] string? fecha, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            Console.WriteLine($"Fecha recibida: {fecha}");
             var query = _context.Permisos.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(fecha))
             {
-                if (DateTime.TryParse(fecha, out DateTime fechaParseada))
+                if (DateTime.TryParseExact(fecha, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime fechaParseada))
                 {
-                    var siguienteDia = fechaParseada.Date.AddDays(1);
-                    query = query.Where(p => p.FechaSolicitud >= fechaParseada.Date && p.FechaSolicitud < siguienteDia);
+                    var fechaUtc = DateTime.SpecifyKind(fechaParseada.Date, DateTimeKind.Utc);
+                    var siguienteDia = fechaUtc.AddDays(1);
+
+                    query = query.Where(p => p.FechaSolicitud >= fechaUtc && p.FechaSolicitud < siguienteDia);
                 }
                 else
                 {
-                    return BadRequest(new { mensaje = "Formato de fecha inválido." });
+                    return BadRequest(new { mensaje = "Formato de fecha inválido. Usa yyyy-MM-dd." });
                 }
             }
 
@@ -161,14 +160,14 @@ namespace PermisosApi.Controllers
                 }
                 catch (Exception correoEx)
                 {
-                    Console.WriteLine($"❌ Error al enviar correo: {correoEx.Message}");
+                    Console.WriteLine($"Error al enviar correo: {correoEx.Message}");
                 }
 
                 return Ok(new { mensaje = "Estado actualizado correctamente" });
             }
             catch (Exception ex)
             {
-                Console.WriteLine("❌ ERROR al actualizar estado:");
+                Console.WriteLine("ERROR al actualizar estado:");
                 Console.WriteLine($"DTO recibido: {dto.Estado}");
                 Console.WriteLine($"Permiso ID: {id}");
                 Console.WriteLine($"Error: {ex.Message}");
