@@ -39,6 +39,11 @@ export class AuthService {
     return Date.now() < expiracion;
   }
 
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol'); 
+  }
+
   getRol(): string | null {
     return localStorage.getItem('rol');
   }

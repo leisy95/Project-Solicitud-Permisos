@@ -80,8 +80,7 @@ export class SolicitudPermisoComponent {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('rol'); // opcional si usas el rol
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

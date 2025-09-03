@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { SolicitudPermisoComponent } from './solicitud-permiso/solicitud-permiso.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth.guard';
 import { CrearUsuarioComponent } from './crear-usuario/crear-usuario.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { MostrarUsuariosComponent } from './mostrar-usuarios/mostrar-usuarios.component';
+import { AuthGuard } from './services/AuthGuard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'solicitud', component: SolicitudPermisoComponent },
+  { path: 'solicitud-permiso', component: SolicitudPermisoComponent, canActivate: [AuthGuard] },
   // { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
