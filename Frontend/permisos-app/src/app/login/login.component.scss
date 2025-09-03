@@ -116,3 +116,18 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+
+        .login-image {
+            display: none; // 👈 ocultamos la imagen en móvil
+        }
+
+        .login-form {
+            width: 100%;
+            padding: 30px 20px;
+        }
+    }
+}

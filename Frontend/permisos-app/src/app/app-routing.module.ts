@@ -11,14 +11,12 @@ import { AuthGuard } from './services/AuthGuard';
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'solicitud-permiso', component: SolicitudPermisoComponent, canActivate: [AuthGuard] },
-  // { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
     component: DashboardComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: AdminPanelComponent }, // /admin
-      // { path: 'crear-usuario', component: CrearUsuarioComponent }, // /admin/crear-usuario
-      { path: 'mostrar-usuarios', component: MostrarUsuariosComponent }, // /admin/mostrar-usuarios
+      { path: '', component: AdminPanelComponent },
+      { path: 'mostrar-usuarios', component: MostrarUsuariosComponent }, 
     ]
   },
     { path: '**', redirectTo: '', pathMatch: 'full' }
