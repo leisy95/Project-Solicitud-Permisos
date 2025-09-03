@@ -49,7 +49,6 @@ export class AuthService {
 
     try {
       const decoded: any = jwtDecode(token);
-      console.log('Token decodificado:', decoded); // 👈 verifica en consola
 
       return {
         nombre: decoded.nombre || '',

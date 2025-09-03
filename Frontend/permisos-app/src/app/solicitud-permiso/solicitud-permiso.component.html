@@ -10,7 +10,7 @@
         <div>
           <label>Nombre:</label>
           <input type="text" [(ngModel)]="permiso.nombre" placeholder="Nombre" name="Nombre"
-            [ngClass]="{'invalido': errores?.Nombre}" required readonly/>
+            [ngClass]="{'invalido': errores?.Nombre}" required/>
           <div class="error" *ngIf="errores?.Nombre">
             {{ errores.Nombre[0] }}
           </div>
@@ -18,7 +18,7 @@
         <div>
           <label>Correo:</label>
           <input type="email" [(ngModel)]="permiso.correo" name="Correo" placeholder="Correo"
-            [ngClass]="{'invalido': errores?.Correo}" required readonly/>
+            [ngClass]="{'invalido': errores?.Correo}" required/>
           <div class="error" *ngIf="errores?.Correo">
             {{ errores.Correo[0] }}
           </div>
