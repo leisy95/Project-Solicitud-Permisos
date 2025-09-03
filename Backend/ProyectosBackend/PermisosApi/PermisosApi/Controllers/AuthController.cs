@@ -96,7 +96,7 @@ public class AuthController : ControllerBase
          await _context.SaveChangesAsync();
 
         // Enviar correo
-        await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
+        var enviado = await _emailService.EnviarCorreoAsync(dto.Correo, "Tu acceso al sistema",
             $"Hola {dto.Nombre}, tu contraseña es: {contrasenaGenerada}");
 
         if (enviado)
