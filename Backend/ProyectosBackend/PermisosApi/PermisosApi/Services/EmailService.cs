@@ -29,9 +29,8 @@
 //    }
 //}
 
-using System.Net;
-using System.Net.Mail;
-using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace PermisosApi.Services
 {
@@ -44,21 +43,29 @@ namespace PermisosApi.Services
             _config = config;
         }
 
-        public async Task EnviarCorreoAsync(string destino, string asunto, string cuerpo)
+        public async Task<bool> EnviarCorreoAsync(string destino, string asunto, string cuerpo)
         {
-            var smtpConfig = _config.GetSection("Smtp");
-
-            var user = Environment.GetEnvironmentVariable("SMTP_USER") ?? smtpConfig["User"];
-            var pass = Environment.GetEnvironmentVariable("SMTP_PASS") ?? smtpConfig["Password"];
-
-            using var cliente = new SmtpClient(smtpConfig["Host"], int.Parse(smtpConfig["Port"]))
+            try
             {
-                Credentials = new NetworkCredential(user, pass),
-                EnableSsl = bool.Parse(smtpConfig["EnableSsl"])
-            };
+                var apiKey = _config["SendGrid__ApiKey"];
+                var fromEmail = _config["SendGrid__FromEmail"];
+                var fromName = _config["SendGrid__FromName"];
 
-            var mensaje = new MailMessage(user, destino, asunto, cuerpo);
-            await cliente.SendMailAsync(mensaje);
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(fromEmail, fromName);
+                var to = new EmailAddress(destino);
+                var msg = MailHelper.CreateSingleEmail(from, to, asunto, cuerpo, $"<p>{cuerpo}</p>");
+                var response = await client.SendEmailAsync(msg);
+
+                Console.WriteLine($"SendGrid Status: {response.StatusCode}");
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo: {ex.Message}");
+                return false;
+            }
         }
     }
 }
