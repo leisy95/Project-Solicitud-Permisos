@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import * as XLSX from 'xlsx';
@@ -31,7 +31,7 @@ interface Permiso {
   styleUrls: ['./admin-panel.component.scss']
 })
 export class AdminPanelComponent implements OnInit {
-  usuario: UsuarioToken = { nombre: '', rol: '', inicial: ''  };
+  usuario: UsuarioToken = { nombre: '', rol: '', inicial: '' };
 
   solicitudes: any[] = [];
   mensaje = '';
@@ -83,7 +83,7 @@ export class AdminPanelComponent implements OnInit {
           this.totalSolicitudes = data.total;
         },
         error: () => this.alertService.advertencia('Oops', 'Error al cargar las solicitudes.')
-          // this.mensaje = 'Error al cargar las solicitudes.'
+        // this.mensaje = 'Error al cargar las solicitudes.'
       });
   }
 
@@ -95,14 +95,31 @@ export class AdminPanelComponent implements OnInit {
   actualizarEstado(id: number, estado: string) {
     const body = { Estado: estado };  // debe coincidir con EstadoPermisoDto
 
-    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/permisos/${id}`, body)
+    this.http.put<{ mensaje: string }>(`${environment.apiUrl}/permiso/${id}`, body)
       .subscribe({
         next: (res) => {
-          this.alertService.exito('Bien','Estado actualizado correctamente')
+          this.alertService.exito('Bien', 'Estado actualizado correctamente')
           this.obtenerSolicitudes(this.fechaFiltro); // Refrescar
         },
         error: (err) => {
           this.alertService.error('Oops', 'Error al actualizar estado.')
+        }
+      });
+  }
+
+  eliminarUsuario(id: number): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.delete(`${environment.apiUrl}/permiso/${id}`, { headers })
+      .subscribe({
+        next: () => {
+          this.alertService.exito('perfecto', 'Registro eliminado correctamente.')
+          this. obtenerSolicitudes(); // refrescar lista
+        },
+        error: (err) => {
+          this.alertService.error('Oops', 'Error al eliminar el Registro.')
+          this.mensaje = '';
         }
       });
   }
@@ -134,6 +151,6 @@ export class AdminPanelComponent implements OnInit {
       ])
     });
 
-    doc.save(`Solicitudes_${new Date().toISOString().slice(0,10)}.pdf`);
+    doc.save(`Solicitudes_${new Date().toISOString().slice(0, 10)}.pdf`);
   }
 }
