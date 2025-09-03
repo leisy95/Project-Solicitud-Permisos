@@ -66,7 +66,7 @@ namespace PermisosApi.Controllers
                     Nombre = dto.Nombre,
                     Correo = dto.Correo,
                     Motivo = dto.Motivo,
-                    FechaSolicitud = DateTime.Now,
+                    FechaSolicitud = DateTime.UtcNow,
                     Estado = "Pendiente",
                     ArchivoPdf = dto.Archivo?.FileName // Esto es un campo nuevo en tu entidad Permiso
                 };
