@@ -206,3 +206,60 @@
 .fa-sign-out-alt {
     font-size: 22px;
 }
+
+@media (max-width: $breakpoint-mobile) {
+    .dashboard-container {
+        flex-direction: column; // barra arriba, contenido abajo
+    }
+
+    // Barra superior con botón hamburguesa
+    .topbar-mobile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: $color-primario;
+        color: $color-blanco;
+        padding: .75rem 1rem;
+
+        .hamburger {
+            border: none;
+            background: transparent;
+            color: $color-blanco;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .app-title {
+            font-size: 1rem;
+            margin: 0;
+            flex: 1;
+        }
+    }
+
+    // Sidebar como drawer
+    .menu-lateral {
+        position: fixed;
+        top: 0;
+        left: -100%; // oculto fuera de pantalla
+        width: 220px;
+        height: 100vh;
+        background: $color-primario;
+        z-index: 1000;
+        transition: left 0.3s ease-in-out;
+        padding-top: 4rem; // espacio para la barra superior
+
+        &.open-mobile {
+            left: 0; // visible
+        }
+
+        &.collapsed {
+            width: 220px; // en móvil no colapsa, siempre ancho completo
+        }
+    }
+
+    // Contenido principal ocupa todo
+    .panel-principal {
+        margin-left: 0 !important;
+        padding: 1rem;
+    }
+}
