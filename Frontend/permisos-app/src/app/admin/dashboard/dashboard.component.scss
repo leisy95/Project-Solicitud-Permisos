@@ -1,5 +1,9 @@
 @use 'variables' as *;
 
+// Anchos del sidebar
+$sidebar-w: 250px;
+$sidebar-w-collapsed: 72px;
+
 .dashboard-container {
     display: flex;
     min-height: 100vh;
@@ -11,69 +15,155 @@
 // Menú lateral
 .menu-lateral {
     position: fixed;
-    width: 250px;
+    width: $sidebar-w;
     height: 100vh;
     background-color: $color-primario;
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    transition: width .25s ease-in-out;
 
     .superior {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
 
-        h2 {
-            font-size: 1.25rem;
-            margin: 0;
-            color: $color-blanco;
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+
+            .logo {
+                font-size: 1.25rem;
+                margin: 0;
+                color: $color-blanco;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border: none;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, .12);
+                color: $color-blanco;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(255, 255, 255, .2);
+                }
+            }
         }
 
         .acciones-superiores {
             padding-top: 20px;
             display: flex;
             flex-direction: column;
-            // gap: 1.2rem;
 
             a {
-                justify-content: flex-start;
-                text-align: left;
+                display: flex;
+                align-items: center;
+                gap: .75rem;
                 color: $color-blanco;
-                padding: 0.6rem;
-                padding-right: 0.6rem;
+                padding: .6rem .6rem;
                 font-weight: bold;
-                cursor: pointer;
                 text-decoration: none;
-            }
+                border-radius: 8px;
+                transition: background-color .15s ease;
 
-            .fa-home,
-            .fa-sign-out-alt {
-                font-size: 80px;
+                &:hover,
+                &.active {
+                    background-color: rgba(255, 255, 255, .12);
+                }
+
+                i {
+                    font-size: 22px; // tamaño de icono en modo normal
+                    width: 24px;
+                    text-align: center;
+                    flex: 0 0 24px;
+                }
+
+                .label {
+                    white-space: nowrap;
+                }
             }
         }
     }
-}
 
-.cerrar-seccion {
-    margin-top: auto;
+    // Pie (cerrar sesión)
+    .cerrar-seccion {
+        margin-top: auto;
 
-    button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        width: 100%;
-        padding: 0.6rem;
-        background-color: $color-error;
-        color: $color-negro;
-        font-weight: bold;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        text-align: center;
-        justify-content: center;
+        .cerrar {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            width: 100%;
+            padding: .6rem;
+            background-color: $color-error;
+            color: $color-negro;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            justify-content: center;
+            transition: background-color .15s ease;
 
-        &:hover {
-            background-color: darken($color-error, 10%);
+            &:hover {
+                background-color: darken($color-error, 10%);
+            }
+
+            i {
+                font-size: 18px;
+            }
+        }
+    }
+
+    // ====== MODO COLAPSADO ======
+    &.collapsed {
+        width: $sidebar-w-collapsed;
+
+        .topbar {
+            .logo {
+                opacity: 0;
+                visibility: hidden;
+                width: 0;
+            }
+        }
+
+        .acciones-superiores a {
+            justify-content: center;
+
+            .label {
+                opacity: 0;
+                width: 0;
+                margin: 0;
+                overflow: hidden;
+                visibility: hidden;
+            }
+
+            i {
+                font-size: 22px; // tamaño de icono en modo colapsado
+            }
+        }
+
+        .cerrar-seccion .cerrar {
+            justify-content: center;
+
+            .label {
+                opacity: 0;
+                width: 0;
+                margin: 0;
+                overflow: hidden;
+                visibility: hidden;
+            }
         }
     }
 }
@@ -81,11 +171,12 @@
 // Panel derecho
 .panel-principal {
     flex: 1;
-    margin-left: 250px;
+    margin-left: $sidebar-w;
     padding: 2rem;
     position: relative;
     overflow: hidden;
     overflow: auto;
+    transition: margin-left .25s ease-in-out;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -105,8 +196,19 @@
         position: relative;
         z-index: 1;
     }
+
+    &.expanded {
+        margin-left: $sidebar-w-collapsed;
+    }
 }
 
 .panel-principal::-webkit-scrollbar {
     display: none;
+}
+
+/* Opcional: tamaño de íconos global que tenías exagerado
+   (80px rompe el diseño) */
+.fa-home,
+.fa-sign-out-alt {
+    font-size: 22px; // ajusta a lo que prefieras
 }
