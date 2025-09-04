@@ -64,6 +64,7 @@ export class AuthService {
 
 /*import { HttpClient } from '@angular/common/http';
  import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
  import { Observable, of, throwError } from 'rxjs';
 
  const useMock = true; // Cambia a false cuando quieras volver al backend real
@@ -104,34 +105,50 @@ export class AuthService {
    }
 
    guardarToken(token: string) {
-     localStorage.setItem('token', token);
-   }
+    localStorage.setItem('token', token);
+  }
 
-   obtenerToken(): string | null {
-     return localStorage.getItem('token');
-   }
+  obtenerToken(): string | null {
+    return localStorage.getItem('token');
+  }
 
-   eliminarToken() {
-     localStorage.removeItem('token');
-     localStorage.removeItem('rol');
-   }
+  // eliminarToken() {
+  //   localStorage.removeItem(this.tokenKey);
+  // }
 
-   isLoggedIn(): boolean {
-     const token = this.obtenerToken();
-     if (!token) return false;
+  eliminarToken() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+  }
 
-     try {
-       const payload = JSON.parse(atob(token.split('.')[1]));
-       const expiracion = payload.exp * 1000;
-       return Date.now() < expiracion;
-     } catch (e) {
-       return false; // token mal formado
-     }
-   }
+  isLoggedIn(): boolean {
+    const token = this.obtenerToken();
+    if (!token) return false;
 
-   getRol(): string | null {
-     return localStorage.getItem('rol');
-   }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiracion = payload.exp * 1000; // en milisegundos
+    return Date.now() < expiracion;
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol'); 
+  }
+
+  getRol(): string | null {
+    return localStorage.getItem('rol');
+  }
+
+  getUserData() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const decoded: any = jwtDecode(token);
+    return {
+      nombre: decoded.nombre || '',
+      email: decoded.correo || ''
+    };
+  }
 
    // Simula un token JWT básico
    private generarTokenSimulado(correo: string, rol: string): string {

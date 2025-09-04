@@ -1,9 +1,5 @@
 @use 'variables' as *;
 
-// Anchos del sidebar
-$sidebar-w: 250px;
-$sidebar-w-collapsed: 72px;
-
 .dashboard-container {
     display: flex;
     min-height: 100vh;
@@ -51,12 +47,12 @@ $sidebar-w-collapsed: 72px;
                 height: 36px;
                 border: none;
                 border-radius: 8px;
-                background: rgba(255, 255, 255, .12);
+                background: rgba($transparencia-blanca, 0.2);
                 color: $color-blanco;
                 cursor: pointer;
 
                 &:hover {
-                    background: rgba(255, 255, 255, .2);
+                    background: rgba($transparencia-blanca, 0.2);
                 }
             }
         }
@@ -79,7 +75,7 @@ $sidebar-w-collapsed: 72px;
 
                 &:hover,
                 &.active {
-                    background-color: rgba(255, 255, 255, .12);
+                    background-color: rgba($transparencia-blanca, 0.2)
                 }
 
                 i {
@@ -206,9 +202,7 @@ $sidebar-w-collapsed: 72px;
     display: none;
 }
 
-/* Opcional: tamaño de íconos global que tenías exagerado
-   (80px rompe el diseño) */
 .fa-home,
 .fa-sign-out-alt {
-    font-size: 22px; // ajusta a lo que prefieras
+    font-size: 22px;
 }
