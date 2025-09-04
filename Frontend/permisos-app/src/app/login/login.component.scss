@@ -102,32 +102,22 @@
                 }
             }
         }
-
-        // 📱 Responsivo para móviles
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-
-                .login-image,
-                .login-form {
-                    padding: 30px 20px;
-                }
-            }
-        }
     }
 }
 
 @media (max-width: 768px) {
-    .login-container {
-        flex-direction: column;
+    .login-page {
+        .login-container {
+            flex-direction: column;
 
-        .login-image {
-            display: none; 
-        }
+            .login-image {
+                display: none;
+            }
 
-        .login-form {
-            width: 100%;
-            padding: 30px 20px;
+            .login-form {
+                width: 100%;
+                padding: 30px 20px;
+            }
         }
     }
 }
