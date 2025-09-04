@@ -29,7 +29,7 @@
 
 .menu-info {
   position: absolute;
-  top: 50px; 
+  top: 50px;
   right: 0;
   background: $color-blanco;
   color: $color-negro;
@@ -71,6 +71,19 @@
         color: $color-primario;
         font-weight: bold;
       }
+
+      .boton-eliminar {
+        background-color: $color-eliminar;
+        color: $color-blanco;
+        font-weight: bold;
+        border-radius: 8px;
+        border: none;
+        padding: 0.5rem;
+      }
+
+      .boton-eliminar:hover {
+        background-color: rgba($color-eliminar, 0.8);
+      }
     }
 
     .botones-exportar {
@@ -86,18 +99,6 @@
         border-radius: 5px;
         cursor: pointer;
       }
-    }
-    .boton-eliminar {
-        background-color: $color-eliminar;
-        color: $color-blanco;
-        font-weight: bold;
-        border-radius: 8px;
-        border: none;
-        padding: 0.5rem;
-    }
-
-    .boton-eliminar:hover {
-        background-color: rgba($color-eliminar, 0.8);
     }
   }
 

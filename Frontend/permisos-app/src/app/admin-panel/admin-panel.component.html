@@ -32,8 +32,8 @@
                 <th>Motivo</th>
                 <th>Fecha</th>
                 <th>Estado</th>
-                <th>Acciones</th>
                 <th>Archivos</th>
+                <th>Acciones</th>
                 <th>Eliminar</th>
             </tr>
         </thead>
@@ -44,6 +44,12 @@
                 <td>{{ solicitud.motivo }}</td>
                 <td>{{ solicitud.fechaSolicitud | date: 'yyyy-MM-dd HH:mm' }}</td>
                 <td>{{ solicitud.estado }}</td>
+                <td>
+                    <a *ngIf="solicitud.archivoPdf" [href]="'http://localhost:5206/Archivos/' + solicitud.archivoPdf"
+                        target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </a>
+                </td>
                 <td *ngIf="solicitud.estado === 'Pendiente'">
                     <button class="aprobar" (click)="actualizarEstado(solicitud.id, 'Aprobado')"
                         [disabled]="solicitud.estado !== 'Pendiente'">Aprobar</button>
@@ -52,12 +58,6 @@
                 </td>
                 <td *ngIf="solicitud.estado !== 'Pendiente'">
                     <em>Ya respondido</em>
-                </td>
-                <td>
-                    <a *ngIf="solicitud.archivoPdf" [href]="'http://localhost:5206/Archivos/' + solicitud.archivoPdf"
-                        target="_blank">
-                        <i class="fa-solid fa-file-pdf"></i>
-                    </a>
                 </td>
                 <td>
                     <button class="boton-eliminar" (click)="eliminarUsuario(solicitud.id)">Eliminar</button>
